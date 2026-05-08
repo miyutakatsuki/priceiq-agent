@@ -838,18 +838,25 @@ with tab2:
                     client = anthropic.Anthropic()
                     result = priceiq_agent(user_q, client, verbose=False, planner_version=planner_version)
 
-                    st.success(
-                        f"Agent finished in **{result['telemetry']['latency_s']:.1f}s** "
-                        f"({result['telemetry']['iterations']} iterations · "
-                        f"{len(result['telemetry']['tool_calls'])} tool calls)"
-                    )
-                    st.markdown(f"**Plan**: `{result['plan']}`")
-                    st.markdown("---")
-                    section_header("", "Final answer")
-                    st.markdown(result["answer"])
-                    render_causal_caveat()
-                    with st.expander("Full telemetry"):
-                        st.json(result["telemetry"])
+                    if not result.get("success"):
+                        st.error(f"**Agent did not complete** — {result.get('error', 'unknown')}")
+                        st.markdown(result.get("answer", "_(no answer returned)_"))
+                        with st.expander("Telemetry (debug)"):
+                            st.json(result.get("telemetry", {}))
+                    else:
+                        tel = result["telemetry"]
+                        st.success(
+                            f"Agent finished in **{tel.get('latency_s', 0):.1f}s** "
+                            f"({tel.get('iterations', '?')} iterations · "
+                            f"{len(tel.get('tool_calls', []))} tool calls)"
+                        )
+                        st.markdown(f"**Plan**: `{result.get('plan', {})}`")
+                        st.markdown("---")
+                        section_header("", "Final answer")
+                        st.markdown(result["answer"])
+                        render_causal_caveat()
+                        with st.expander("Full telemetry"):
+                            st.json(tel)
             except ImportError:
                 st.error(
                     "**`anthropic` package not installed.** Run "

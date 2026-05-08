@@ -362,7 +362,9 @@ def priceiq_agent(user_query: str, anthropic_client, verbose: bool = True,
 
     if "category_pt" not in plan:
         return {"success": False, "telemetry": telemetry,
-                "error": "Planner failed to produce category_pt"}
+                "error": "Planner failed to produce category_pt",
+                "answer": "Agent could not run — Planner failed to identify a valid Olist category. "
+                          "Try rephrasing with a recognized product line (e.g., garden tools, sports gear)."}
 
     # ── Executor (manual tool_use loop) ─────────────────────
     if verbose:
