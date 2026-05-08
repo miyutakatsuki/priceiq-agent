@@ -335,11 +335,6 @@ st.markdown("""
         font-size: 0.68rem; font-weight: 500; color: var(--fg-secondary);
         text-transform: uppercase; letter-spacing: 0.08em;
         margin-bottom: 0.35rem;
-        display: flex; align-items: center; justify-content: space-between;
-    }
-    .rec-card .label .marker {
-        width: 6px; height: 6px; border-radius: 50%;
-        background: var(--fg-tertiary);
     }
     .rec-card .value {
         font-size: 1.4rem; font-weight: 600; color: var(--fg-primary);
@@ -350,13 +345,9 @@ st.markdown("""
         margin-top: 0.3rem; font-size: 0.74rem; color: var(--fg-secondary);
         line-height: 1.45;
     }
-    .rec-card.accent .label .marker { background: var(--accent); }
     .rec-card.accent .value { color: var(--accent); }
-    .rec-card.ok     .label .marker { background: var(--positive); }
     .rec-card.ok     .value { color: var(--positive); }
-    .rec-card.warn   .label .marker { background: var(--warning); }
     .rec-card.warn   .value { color: var(--warning); }
-    .rec-card.info   .label .marker { background: var(--info); }
     .rec-card.info   .value { color: var(--info); }
 
     /* ── Horizontal trace timeline ────────────────────────── */
