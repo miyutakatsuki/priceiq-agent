@@ -34,3 +34,6 @@ ms-playwright/
 
 # Claude Code internal
 .claude/
+
+# Office temp lock files
+~$*
