@@ -144,6 +144,18 @@ Final answer + verbatim causal_caveat
 
 ---
 
+## Colab .ipynb 同步规则
+
+任何 `priceiq_*.py` 改动后，`PriceIQ_Phase2_Final.ipynb` 里嵌入的副本会过期（grader 在 Colab 跑的不是 disk module 而是 ipynb cell 里的 `%%writefile`）。所以：
+
+```bash
+python3 build_ipynb.py    # rebuild from current priceiq_*.py
+```
+
+提交前确保 .ipynb 已 sync。
+
+---
+
 ## Streamlit demo 部署选项
 
 `streamlit run app.py` 本地 / Streamlit Community Cloud 永久 / Cloudflare
