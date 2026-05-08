@@ -120,8 +120,9 @@ and is documented as a limit of the experiment, not a hidden success.
 
 The v1 answer is correct in direction but **lacks the stakeholder context** that
 makes the recommendation actionable. v2 surfaces the seasonality and weather signals
-as part of the rationale, and the magnitudes are larger because the simulator
-received non-default multipliers (CI shifts from −29..+66 to −24..+76).
+as part of the rationale, and the simulator's CI shifts up ~7pp (midpoint +18%
+→ +26%) — upside larger, downside less severe — because it received the
+live demand × 1.122 / weather × 0.944 instead of v1's default 1.0 / 1.0.
 
 ---
 
