@@ -622,8 +622,10 @@ def render_causal_caveat() -> None:
     """Render the standard 'ASSOCIATIONAL ONLY' banner.
 
     Appended after every successful agent answer so the disclaimer is always
-    visually adjacent to the recommendation. Identical text appears in
-    `priceiq_elasticity.causal_caveat` (the source of truth).
+    visually adjacent to the recommendation. UI-condensed paraphrase of
+    `priceiq_elasticity.causal_caveat` (source of truth) — same meaning,
+    shorter prose + β symbol for readability. The full verbatim string still
+    rides along in tool output / final_answer / Judge transcript.
     """
     st.markdown(
         '<div class="caveat-banner">'
