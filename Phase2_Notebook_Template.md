@@ -74,7 +74,7 @@ print(f"Saved telemetry to {out.absolute()}")
 
 ## Why a template, not a checked-in `.ipynb`
 
-`%%writefile` cells get long (all 6 modules are 125+ lines, agent.py is 445). A live notebook
+`%%writefile` cells get long (all 6 modules are 125+ lines, agent.py is 444). A live notebook
 that round-trips through GitHub diffs poorly. The local `priceiq_*.py` modules
 are the source of truth; the notebook is just a thin wrapper for Colab's
 runtime.
