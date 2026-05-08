@@ -33,13 +33,23 @@ def simulate_revenue_impact(
 
     Args:
         category: 葡语品类名
-        price_change_pct: 价格变动比例（-0.10 = 降价 10%）
+        price_change_pct: 价格变动比例（-0.10 = 降价 10%）。
+            合理范围 [-0.5, +0.5]；超过会触发数学奇点（dp=-1 时 (1+dp)^β=0^β
+            div-by-zero for β<0）或不可信外推（dp=-0.9 + β=-3 → factor=1000）。
+            超界时返回 success=False。
         elasticity / demand_signal / weather_signal: 上游工具输出，
             未提供时自动调用对应 Tool。
 
     Returns:
         含 current / new_price / scenarios（3 个）+ formula + caveat 的 dict。
     """
+    # Validate input range — refuse extreme deltas to avoid math singularities
+    if not (-0.5 <= price_change_pct <= 0.5):
+        return {"category": category, "success": False,
+                "message": (f"price_change_pct={price_change_pct} outside [-0.5, +0.5]. "
+                            "Extreme price changes produce non-credible projections; "
+                            "consider running multiple smaller deltas instead.")}
+
     if elasticity is None:
         from priceiq_elasticity import calculate_price_elasticity
         elasticity = calculate_price_elasticity(category)
