@@ -219,9 +219,12 @@ SPORTS_TRACE = {
         "monthly_revenue_avg_3mo": 46659.0,
     },
     "scenarios": {
-        "pessimistic_beta_low":  {"beta_used": -5.818, "new_qty_monthly": 805.5, "new_revenue_monthly": 82103.16, "revenue_change_pct": 0.760, "qty_change_pct": 0.955},
-        "central":               {"beta_used": -1.816, "new_qty_monthly": 519.4, "new_revenue_monthly": 52891.7, "revenue_change_pct": 0.134, "qty_change_pct": 0.260},
-        "optimistic_beta_high":  {"beta_used": 2.185,  "new_qty_monthly": 350.9, "new_revenue_monthly": 35733.5, "revenue_change_pct": -0.234, "qty_change_pct": -0.148},
+        # Recomputed 2026-05-08 to match simulator formula exactly:
+        #   new_qty = current_qty × (1+Δp)^β × demand_mult × weather_mult
+        # Earlier hardcoded numbers had drifted from the formula by 1-2 pp.
+        "pessimistic_beta_low":  {"beta_used": -5.818, "new_qty_monthly": 805.5, "new_revenue_monthly": 82100.59, "revenue_change_pct": 0.7596, "qty_change_pct": 0.9552},
+        "central":               {"beta_used": -1.816, "new_qty_monthly": 528.4, "new_revenue_monthly": 53857.17, "revenue_change_pct": 0.1543, "qty_change_pct": 0.2825},
+        "optimistic_beta_high":  {"beta_used":  2.185, "new_qty_monthly": 346.6, "new_revenue_monthly": 35327.21, "revenue_change_pct": -0.2429, "qty_change_pct": -0.1586},
     },
     "telemetry": {
         "iterations": 6,
@@ -244,8 +247,8 @@ SPORTS_TRACE = {
 | Scenario | Quantity Change | Revenue Change |
 |---|---|---|
 | Pessimistic (β=−5.82) | +96% | +76% |
-| Central (β=−1.82) | +26% | +13% |
-| Optimistic (β=+2.19) | −15% | −23% |
+| Central (β=−1.82) | +28% | +15% |
+| Optimistic (β=+2.19) | −16% | −24% |
 
 ### Demand & Weather Context
 - **Demand Multiplier:** 1.122 (Mother's Day +11%, May seasonality +13%)
@@ -254,10 +257,10 @@ SPORTS_TRACE = {
 ### Critical Caveats
 > 1. **ASSOCIATIONAL ONLY** — not causal.
 > 2. **Wide CI**: This category's β estimate has a CI that crosses zero. The discount
->    *might* increase revenue by 115% or *decrease* it by 23%. We cannot confidently say.
+>    *might* increase revenue by 76% or *decrease* it by 24%. We cannot confidently say.
 
 ### Verdict
-⚠️ **PROCEED WITH CAUTION** — central scenario shows modest revenue lift (+13%), but
+⚠️ **PROCEED WITH CAUTION** — central scenario shows modest revenue lift (+15%), but
 the 95% CI is too wide to give a confident recommendation. The multicollinearity
 warning indicates the data does not separate price effects from confounders for
 this category. **Recommend an A/B pricing test on a small subset before full
@@ -284,6 +287,14 @@ SPORTS_V1_TRACE = {
         {"iter": 2, "tool": "calculate_price_elasticity", "latency_s": 2.7, "error": None},
         {"iter": 3, "tool": "simulate_revenue_impact", "latency_s": 6.8, "error": None},
     ],
+    # v1 plan SKIPPED demand + weather → simulator falls back to dm=wm=1.0 (ADR-004).
+    # Re-derived scenarios reflect that — the missing context shows up as
+    # smaller magnitudes than v2 (which has demand × 1.122 + weather × 0.944).
+    "scenarios": {
+        "pessimistic_beta_low":  {"beta_used": -5.818, "new_qty_monthly": 760.5, "new_revenue_monthly": 77513.96, "revenue_change_pct": 0.6613, "qty_change_pct": 0.8459},
+        "central":               {"beta_used": -1.816, "new_qty_monthly": 498.9, "new_revenue_monthly": 50850.38, "revenue_change_pct": 0.0898, "qty_change_pct": 0.2109},
+        "optimistic_beta_high":  {"beta_used":  2.185, "new_qty_monthly": 327.3, "new_revenue_monthly": 33360.05, "revenue_change_pct": -0.2850, "qty_change_pct": -0.2056},
+    },
     "telemetry": {
         "iterations": 4,
         "latency_s": 25.92,
@@ -299,12 +310,14 @@ SPORTS_V1_TRACE = {
 - **Multicollinearity Warning:** True
 
 ### Revenue Impact (−10%)
-- Pessimistic: +76%, Central: +13%, Optimistic: −23%
+- Pessimistic: +66%, Central: +9%, Optimistic: −29%
 
 ### Verdict
-Discount viable; revenue +21–46%. Caveat: associational only.
+Discount viable; revenue −29% to +66%. Caveat: associational only.
 
-> *(Note: this v1 answer omits demand and weather context that v2 surfaces.)*
+> *(Note: this v1 answer omits demand and weather context that v2 surfaces.
+> Magnitudes are noticeably smaller because the simulator received default
+> 1.0 multipliers, not the live demand × 1.122 / weather × 0.944.)*
 """,
 }
 
