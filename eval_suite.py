@@ -325,23 +325,35 @@ def _estimate_cost(agent_res: dict) -> float:
 
 
 def _summarize(results: list) -> dict:
-    """Aggregate per-case results into eval-level summary stats (pass rate,
-    avg cost, cost-per-pass vs cost-per-fail, avg overall Judge score)."""
+    """Aggregate per-case results into eval-level summary stats. Schema
+    matches eval_results_indicative.json so run_eval.py can replace it
+    cleanly."""
     n = len(results)
-    n_pass = sum(1 for r in results if r.get("judge_scores", {}).get("verdict") == "pass")
-    n_fail = sum(1 for r in results if r.get("judge_scores", {}).get("verdict") == "fail")
-    n_err = sum(1 for r in results if r.get("error"))
+
+    def verdict_count(v):
+        return sum(1 for r in results if r.get("judge_scores", {}).get("verdict") == v)
+    n_pass    = verdict_count("pass")
+    n_partial = verdict_count("partial")
+    n_fail    = verdict_count("fail")
+
     avg_cost = sum(r.get("agent_cost_usd", 0) for r in results) / n if n else 0
     pass_costs = [r["agent_cost_usd"] for r in results
                   if r.get("judge_scores", {}).get("verdict") == "pass" and r.get("agent_cost_usd")]
     fail_costs = [r["agent_cost_usd"] for r in results
                   if r.get("judge_scores", {}).get("verdict") == "fail" and r.get("agent_cost_usd")]
     avg_overall = sum(r.get("judge_scores", {}).get("overall", 0) for r in results) / n if n else 0
+    avg_iters = sum(r.get("agent_iterations") or 0 for r in results) / n if n else 0
+    # Latency tracked separately if telemetry has it
+    latencies = [r.get("agent_latency_s") for r in results if r.get("agent_latency_s")]
+    avg_lat = sum(latencies) / len(latencies) if latencies else 0
+
     return {
-        "n": n, "n_pass": n_pass, "n_fail": n_fail, "n_error": n_err,
+        "n_pass": n_pass, "n_partial": n_partial, "n_fail": n_fail,
         "pass_rate": round(n_pass / n, 3) if n else 0,
-        "avg_cost_per_query": round(avg_cost, 5),
-        "avg_cost_per_pass": round(sum(pass_costs) / len(pass_costs), 5) if pass_costs else 0,
-        "avg_cost_per_fail": round(sum(fail_costs) / len(fail_costs), 5) if fail_costs else 0,
+        "avg_cost_per_query_usd": round(avg_cost, 5),
+        "avg_cost_per_pass_usd": round(sum(pass_costs) / len(pass_costs), 5) if pass_costs else 0,
+        "avg_cost_per_fail_usd": round(sum(fail_costs) / len(fail_costs), 5) if fail_costs else 0,
         "avg_overall_score": round(avg_overall, 2),
+        "avg_iterations": round(avg_iters, 1),
+        "avg_latency_s": round(avg_lat, 1),
     }
