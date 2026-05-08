@@ -496,11 +496,32 @@ _TOOL_META = {
 
 
 def plot_revenue_scenarios(scenarios: dict, current: dict) -> go.Figure:
-    """3 场景收益柱状图（light theme）."""
-    names = ["Pessimistic", "Central", "Optimistic"]
+    """3-scenario revenue bar — labels assigned by *revenue rank*, not β rank.
+
+    The simulator's keys (`pessimistic_beta_low` / `optimistic_beta_high`) refer
+    to the β confidence-interval ends. For a *price-decrease* query on an
+    elastic good, β_low (more elastic) yields the *highest* revenue, so the
+    raw key naming is reversed from a stakeholder's perspective.
+
+    We resolve this here: bars are sorted ascending by revenue and labelled
+    Pessimistic / Central / Optimistic from the user's POV (low rev → high rev).
+    """
     keys = ["pessimistic_beta_low", "central", "optimistic_beta_high"]
-    revenues = [scenarios[k]["new_revenue_monthly"] for k in keys]
-    deltas = [scenarios[k]["revenue_change_pct"] * 100 for k in keys]
+    pairs = sorted(
+        ((k, scenarios[k]) for k in keys),
+        key=lambda kv: kv[1]["revenue_change_pct"],
+    )
+    # ascending revenue: lowest = stakeholder-pessimistic, highest = optimistic
+    user_labels = ["Pessimistic", "Central", "Optimistic"]
+    # swap "Central" position back to the actual `central` key (β recommended)
+    central_idx = next(i for i, (k, _) in enumerate(pairs) if k == "central")
+    if central_idx != 1:
+        # central wasn't in the middle by revenue (rare) — keep ascending
+        # but rename: user-pessimistic / β-recommended / user-optimistic
+        user_labels = ["Lower revenue", "β recommended", "Higher revenue"]
+    names = user_labels
+    revenues = [s["new_revenue_monthly"] for _, s in pairs]
+    deltas = [s["revenue_change_pct"] * 100 for _, s in pairs]
     colors = [PLOT_COLORS["warn"], PLOT_COLORS["primary"], PLOT_COLORS["success"]]
 
     fig = go.Figure()
