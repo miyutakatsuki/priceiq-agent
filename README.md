@@ -7,6 +7,10 @@ A multi-agent pricing-decision system on real Olist e-commerce data.
 Sonnet-4.5 Planner → Haiku-4.5 Executor → 5 typed tools → recommendation
 with 95% CI, multicollinearity diagnostic, and verbatim causal caveat.
 
+**Live demo**: https://priceiq-agent.streamlit.app *(may take 30 s on first cold-start)*
+**Repo**: https://github.com/miyutakatsuki/priceiq-agent
+**Demo video**: *<5-min YouTube link added after recording>*
+
 ---
 
 ## Quick start
