@@ -119,7 +119,7 @@ results = run_full_eval(client, priceiq_agent, n=50, consistency_runs=3)
 | 2 | Holiday/Trends multipliers under-justified | Explicit α-weighted formula + sensitivity analysis output |
 | 3 | OpenWeather not in tool inventory | Tool 4 formally added, conditional invocation |
 | 4 | Revenue Sim Precision ground truth unclear | 3-scenario CI propagation + honest "directional not causal" framing |
-| 5 | Judge prompt incomplete | 50 cases (10×5 variations), 6-dim rubric, 30 consistency runs |
+| 5 | Judge prompt incomplete | 50 cases (10×5 variations), 7-dim rubric, 30 consistency runs |
 | 6 | FinOps cost-per-success missing | Full breakdown + Sonnet/Haiku comparison + latency profile |
 
 ---

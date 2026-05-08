@@ -20,7 +20,7 @@ Phase 2 addresses all six instructor comments:
 - `avg_freight`-controlled OLS + sign-flip detection + naive-β fallback
 - α-weighted demand formula with sensitivity_analysis output
 - OpenWeather formally added as Tool 4 (conditional invocation)
-- 50-case eval (10×5 variations) + 6-dim Judge rubric + 30 consistency runs
+- 50-case eval (10×5 variations) + 7-dim Judge rubric + 30 consistency runs
 - Cost-per-correct-success FinOps + Sonnet/Haiku model comparison
 
 **Result**: 92% pass rate, $0.029 / query, 31s end-to-end.
@@ -135,10 +135,11 @@ Code: `eval_suite.py:make_50_cases()`
 2. Reasoning Transparency
 3. Hallucination Check
 
-**Custom KPIs** (3, project-specific):
+**Custom KPIs** (4, project-specific):
 4. Elasticity Validity (was multicollinearity_warning surfaced if applicable?)
 5. Simulation Logic (3-scenario propagation correct?)
 6. Refusal When OOS (graceful refusal of out-of-scope queries?)
+7. Causal Caveat (was the verbatim associational-only disclaimer pasted into the final answer?)
 
 Judge model: `claude-sonnet-4-5`. Output: 1-5 score per dimension + verdict
 {pass, partial, fail}.
