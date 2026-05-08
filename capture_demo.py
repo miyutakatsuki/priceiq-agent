@@ -1,11 +1,12 @@
 """Capture Streamlit demo screenshots for embedding in Phase3_Slides.pptx.
 
 Run: python3 capture_demo.py
-Outputs: assets/demo_*.png
+Outputs: assets/demo_*.png + assets/demo_top_main.png (sidebar-cropped, used by slide 4)
 """
 import asyncio
 import pathlib
 from playwright.async_api import async_playwright
+from PIL import Image
 
 OUT = pathlib.Path("assets")
 OUT.mkdir(exist_ok=True)
@@ -54,6 +55,14 @@ async def capture():
             print(f"⚠️  Live tab not captured: {e}")
 
         await browser.close()
+
+    # Crop demo_top.png → demo_top_main.png (drop sidebar, used by PPT slide 4)
+    img = Image.open(OUT / "demo_top.png")
+    W, H = img.size
+    sidebar_w = int(W * 0.13)  # ~13% left edge is the Streamlit sidebar
+    crop = img.crop((sidebar_w, 0, W, int(H * 0.97)))
+    crop.save(OUT / "demo_top_main.png", optimize=True)
+    print(f"✅ {OUT/'demo_top_main.png'} ({crop.size})")
 
 
 if __name__ == "__main__":
