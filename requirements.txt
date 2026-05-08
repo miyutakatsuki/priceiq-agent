@@ -1,0 +1,24 @@
+# PriceIQ Phase 2 — Python dependencies
+# Tested on Python 3.11 (Colab default + macOS local)
+
+# ── LLM SDK (Track B: Claude Agent SDK, manual tool_use loop) ──
+anthropic>=0.40.0
+
+# ── Data layer ─────────────────────────────────────────────────
+kagglehub>=0.3.0          # downloads Olist SQLite from Kaggle
+pandas>=2.1.0
+numpy>=1.26.0
+
+# ── Statistics & analytics ─────────────────────────────────────
+statsmodels>=0.14.0       # log-log OLS + multicollinearity diagnostics
+scipy>=1.11.0             # transitive (statsmodels), but pin explicit
+
+# ── Live signals ───────────────────────────────────────────────
+requests>=2.31.0          # OpenWeather API client
+
+# ── Demo UI ────────────────────────────────────────────────────
+streamlit>=1.30.0
+plotly>=5.18.0
+
+# ── Note on stdlib-only modules (no install needed) ────────────
+# json · sqlite3 · datetime · os · time · typing

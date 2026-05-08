@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Local artifacts
+.tmp/
+.preview/
+*.log
+.DS_Store
+
+# Secrets / env
+.env
+.env.local
+*.key
+api_keys.json
+
+# Build artifacts (regenerable)
+Phase3_Slides.pdf
+Phase3_Slides.html
+*.pptx.bak
+eval_results_indicative.json.bak
+eval_run_log_*.json
+
+# Playwright browser cache (200MB+)
+ms-playwright/
+
+# Editor
+.vscode/
+.idea/
+
+# Claude Code internal
+.claude/
