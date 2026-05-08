@@ -125,7 +125,8 @@ TOOLS = [
                 "category": {"type": "string"},
                 "price_change_pct": {
                     "type": "number",
-                    "description": "Decimal (-0.10 = -10%, +0.15 = +15%)",
+                    "description": "Decimal (-0.10 = -10%, +0.15 = +15%). Range [-0.5, +0.5]; "
+                                   "extreme values are refused to avoid math singularities.",
                 },
             },
             "required": ["category", "price_change_pct"],
