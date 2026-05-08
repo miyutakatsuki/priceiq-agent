@@ -1,4 +1,4 @@
-"""PriceIQ Tool 5 — get_weather_signal (OpenWeather 5-day forecast).
+"""PriceIQ Tool 4 — get_weather_signal (OpenWeather 5-day forecast).
 
 Conditional invocation: only sports / garden categories trigger the live API
 call. Other categories short-circuit to `applicable=False, multiplier=1.0`

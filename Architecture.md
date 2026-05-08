@@ -37,8 +37,8 @@ flowchart TD
         T1[Tool 1: query_sales_data<br/>SQL over Olist SQLite<br/>71 categories]
         T2[Tool 2: calculate_price_elasticity<br/>log-log OLS + freight control<br/>multicollinearity diagnostics]
         T3[Tool 3: get_demand_signals<br/>BR holidays + seasonality<br/>α-weighted formula]
-        T4[Tool 4: simulate_revenue_impact<br/>3-scenario projection<br/>β CI propagation]
-        T5[Tool 5: get_weather_signal<br/>OpenWeather 5-day forecast<br/>BR top-5 cities]
+        T4[Tool 4: get_weather_signal<br/>OpenWeather 5-day forecast<br/>BR top-5 cities]
+        T5[Tool 5: simulate_revenue_impact<br/>3-scenario projection<br/>β CI propagation]
     end
 
     T1 --> Telemetry

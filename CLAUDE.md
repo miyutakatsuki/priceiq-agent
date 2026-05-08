@@ -48,8 +48,8 @@ Executor — claude-haiku-4-5 — manual tool_use loop, MAX_ITER=8
 [Tool 1] query_sales_data        Olist SQLite, ~100K orders, 71 categories
 [Tool 2] calculate_price_elasticity  log-log OLS + multicollinearity diagnostic
 [Tool 3] get_demand_signals      BR holidays + 22-mo seasonality, α-weighted formula
-[Tool 4] simulate_revenue_impact  3 scenarios from β CI propagation
-[Tool 5] get_weather_signal      OpenWeather 5-day, BR top-5 cities (sports/garden only)
+[Tool 4] get_weather_signal      OpenWeather 5-day, BR top-5 cities (sports/garden only)
+[Tool 5] simulate_revenue_impact  3 scenarios from β CI propagation
       ↓
 Final answer + verbatim causal_caveat
 ```

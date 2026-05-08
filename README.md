@@ -57,8 +57,8 @@ results = run_full_eval(client, priceiq_agent, n=50, consistency_runs=3)
 | `priceiq_data.py` | Tool 1 — SQL over Olist SQLite |
 | `priceiq_elasticity.py` | Tool 2 — log-log OLS + multicollinearity |
 | `priceiq_demand.py` | Tool 3 — BR holidays + Olist seasonality |
-| `priceiq_weather.py` | Tool 5 — OpenWeather 5-day forecast |
-| `priceiq_simulator.py` | Tool 4 — 3-scenario revenue projection |
+| `priceiq_weather.py` | Tool 4 — OpenWeather 5-day forecast |
+| `priceiq_simulator.py` | Tool 5 — 3-scenario revenue projection |
 | `app.py` | Streamlit demo (Cached + Live agent, light theme, plotly) |
 | `cached_traces.py` | Pre-recorded traces for offline demo |
 | `eval_suite.py` | 50-case generator + LLM-as-Judge + consistency runner |
@@ -117,7 +117,7 @@ results = run_full_eval(client, priceiq_agent, n=50, consistency_runs=3)
 |---|---|---|
 | 1 | Elasticity confounded by promo/freight/seasonality | `avg_freight` control + multicollinearity diagnostic + naive fallback + verbatim caveat |
 | 2 | Holiday/Trends multipliers under-justified | Explicit α-weighted formula + sensitivity analysis output |
-| 3 | OpenWeather not in tool inventory | Tool 5 formally added, conditional invocation |
+| 3 | OpenWeather not in tool inventory | Tool 4 formally added, conditional invocation |
 | 4 | Revenue Sim Precision ground truth unclear | 3-scenario CI propagation + honest "directional not causal" framing |
 | 5 | Judge prompt incomplete | 50 cases (10×5 variations), 6-dim rubric, 30 consistency runs |
 | 6 | FinOps cost-per-success missing | Full breakdown + Sonnet/Haiku comparison + latency profile |

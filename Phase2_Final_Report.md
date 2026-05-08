@@ -19,7 +19,7 @@ Phase 2 addresses all six instructor comments:
 - Real 100K-order Olist data (vs synthetic in Phase 1)
 - `avg_freight`-controlled OLS + sign-flip detection + naive-β fallback
 - α-weighted demand formula with sensitivity_analysis output
-- OpenWeather formally added as Tool 5 (conditional invocation)
+- OpenWeather formally added as Tool 4 (conditional invocation)
 - 50-case eval (10×5 variations) + 6-dim Judge rubric + 30 consistency runs
 - Cost-per-correct-success FinOps + Sonnet/Haiku model comparison
 
@@ -308,8 +308,8 @@ the Shortcut Bias finding using slide 5 of the Phase 3 deck (storyboard in
 | `priceiq_data.py` | Tool 1: SQL over Olist SQLite |
 | `priceiq_elasticity.py` | Tool 2: log-log OLS with multicollinearity check |
 | `priceiq_demand.py` | Tool 3: BR holidays + Olist seasonality |
-| `priceiq_weather.py` | Tool 5: OpenWeather 5-day forecast (5 BR cities) |
-| `priceiq_simulator.py` | Tool 4: 3-scenario revenue projection |
+| `priceiq_weather.py` | Tool 4: OpenWeather 5-day forecast (5 BR cities) |
+| `priceiq_simulator.py` | Tool 5: 3-scenario revenue projection |
 | `app.py` | Streamlit demo (Cached + Live agent tabs, light theme, Plotly) |
 | `cached_traces.py` | Pre-recorded traces for offline demo |
 | `eval_suite.py` | 50-case generator + Judge prompt + consistency runner |

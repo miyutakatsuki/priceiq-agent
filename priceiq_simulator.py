@@ -1,4 +1,4 @@
-"""PriceIQ Tool 4 — simulate_revenue_impact (3-scenario CI propagation).
+"""PriceIQ Tool 5 — simulate_revenue_impact (3-scenario CI propagation).
 
 Combines elasticity β + demand_multiplier + weather_multiplier into a
 forward simulation of a proposed price change.
