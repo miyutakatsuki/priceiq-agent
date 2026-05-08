@@ -23,6 +23,8 @@ from typing import Optional
 
 # ── 巴西节假日 + 经验性影响倍数 ──────────────────────────────
 # raw_impact: 该日期对 e-commerce 销量的相对影响（基于 Olist 数据观察）
+# Hardcoded for 2026 (the submission year). For 2027+ regenerate dates from a
+# BR holiday calendar source; impacts are stable. Phase 4 todo if course extends.
 _BR_HOLIDAYS_2026 = [
     ("Carnival",        date(2026,  2, 17), -0.20),
     ("Easter",          date(2026,  4,  5), +0.10),
