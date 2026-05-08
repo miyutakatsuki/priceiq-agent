@@ -2,9 +2,14 @@
 without requiring Anthropic / Kaggle / OpenWeather API keys.
 
 Source: real end-to-end Colab runs on 2026-05-07 (see PVC_Log.md for the
-narrative; numbers in this file are not synthetic). The 3 traces below are
-the only fully-instrumented runs at submission time — the 50-case eval
-(eval_results_indicative.json) extrapolates from these.
+narrative; elasticity / demand / weather / current values are not synthetic).
+`scenarios` were re-derived from the simulator formula in a 2026-05-08 audit
+to eliminate 1-2pp arithmetic drift in the original transcribed numbers —
+they now match exactly what `simulate_revenue_impact` would emit for the
+inputs above (audit script in commit 9bdc260).
+
+The 3 traces below are the only fully-instrumented runs at submission time —
+the 50-case eval (eval_results_indicative.json) extrapolates from these.
 
 Exports:
     GARDEN_TRACE      Clean elasticity (β=-2.83, p<0.05, no warning)
