@@ -52,8 +52,12 @@ print(result["answer"])
 ```
 
 ### Cell 9 — 50-case evaluation (optional, ~$2.57, ~25 min wall-clock)
+
+Two sub-cells: (a) `%%writefile eval_suite.py` (module embedded by `build_ipynb.py`),
+then (b) the run:
+
 ```python
-from eval_suite import run_full_eval  # also %%writefile this module first
+from eval_suite import run_full_eval
 results = run_full_eval(client, priceiq_agent, n=50, consistency_runs=3)
 import json; print(json.dumps(results["summary"], indent=2))
 ```
