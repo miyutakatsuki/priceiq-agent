@@ -1,6 +1,12 @@
 """Capture Streamlit demo screenshots for embedding in Phase3_Slides.pptx.
 
-Run: python3 capture_demo.py
+Setup (one-time, dev tool — not in requirements.txt):
+    pip install playwright pillow
+    python3 -m playwright install chromium
+
+Run: streamlit run app.py    # in another terminal
+     python3 capture_demo.py
+
 Outputs: assets/demo_*.png + assets/demo_top_main.png (sidebar-cropped, used by slide 4)
 """
 import asyncio
