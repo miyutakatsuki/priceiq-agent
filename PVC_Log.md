@@ -126,7 +126,7 @@ live demand × 1.122 / weather × 0.944 instead of v1's default 1.0 / 1.0.
 
 ---
 
-## v3 — Deferred to Phase 3
+## v3 — Deferred (post-submission roadmap)
 
 | Improvement | Expected impact |
 |---|---|

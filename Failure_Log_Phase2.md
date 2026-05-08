@@ -8,7 +8,7 @@
 > 🟠 Medium (degrades but agent recovers) · 🟢 Low (dev-pipeline trivia)
 >
 > **Status (6 entries)**: ✅ 4 fixed (2 High · 1 Medium · 1 Low) ·
-> ✅ 1 mitigated (Low, dev workflow only) · 🟡 1 open (Low, F-06, deferred to Phase 3).
+> ✅ 1 mitigated (Low, dev workflow only) · 🟡 1 open (Low, F-06, post-submission roadmap).
 
 ---
 

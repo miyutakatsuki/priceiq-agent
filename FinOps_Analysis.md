@@ -160,7 +160,7 @@ review, the human cost dominates and the agent is essentially free at scale.
 
 ---
 
-## 8. Optimizations deferred to Phase 3
+## 8. Optimizations deferred (post-submission)
 
 | Optimization | Impact | ROI |
 |---|---|---|
