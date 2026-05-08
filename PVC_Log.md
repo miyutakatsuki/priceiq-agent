@@ -111,16 +111,17 @@ and is documented as a limit of the experiment, not a hidden success.
 ### Final answer comparison (sports, -10%)
 
 **v1** (3-tool plan; demand/weather defaulted to 1.0 inside the simulator's auto-fill):
-> "Discount viable; revenue +21–46%. Caveat: associational only."
+> "Discount viable; revenue −29% to +66% (very wide CI). Caveat: associational only."
 
 **v2** (5-tool plan; demand_mult=1.122, weather_mult=0.944):
-> "Discount viable; revenue +21–46% with demand tailwind from Mother's Day (+11.1%
+> "Discount viable; revenue −24% to +76% with demand tailwind from Mother's Day (+11.1%
 > within 3 days) and seasonality (May historically +13%) partially offset by weather
 > headwind (-5.6%). Caveat: associational only."
 
 The v1 answer is correct in direction but **lacks the stakeholder context** that
 makes the recommendation actionable. v2 surfaces the seasonality and weather signals
-as part of the rationale.
+as part of the rationale, and the magnitudes are larger because the simulator
+received non-default multipliers (CI shifts from −29..+66 to −24..+76).
 
 ---
 
