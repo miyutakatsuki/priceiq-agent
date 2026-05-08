@@ -124,9 +124,9 @@ GARDEN_TRACE = {
 
 | Scenario | Quantity Change | Revenue Change | New Monthly Revenue |
 |---|---|---|---|
-| **Pessimistic** (β=−3.686) | +61.9% | +45.7% | $28,001 |
+| **Pessimistic** (β=−1.964) | +35.0% | +21.5% | $23,355 |
 | **Central** (β=−2.825) | +47.9% | +33.1% | $25,573 |
-| **Optimistic** (β=−1.964) | +35.0% | +21.5% | $23,355 |
+| **Optimistic** (β=−3.686) | +61.9% | +45.7% | $28,001 |
 
 ### Demand Context
 - **Demand Multiplier:** 1.163 (seasonality +19.8% in May, Mother's Day boost +11.1%)
@@ -251,9 +251,9 @@ SPORTS_TRACE = {
 
 | Scenario | Quantity Change | Revenue Change |
 |---|---|---|
-| Pessimistic (β=−5.82) | +96% | +76% |
+| Pessimistic (β=+2.19) | −16% | −24% |
 | Central (β=−1.82) | +28% | +15% |
-| Optimistic (β=+2.19) | −16% | −24% |
+| Optimistic (β=−5.82) | +96% | +76% |
 
 ### Demand & Weather Context
 - **Demand Multiplier:** 1.122 (Mother's Day +11%, May seasonality +13%)
@@ -315,7 +315,7 @@ SPORTS_V1_TRACE = {
 - **Multicollinearity Warning:** True
 
 ### Revenue Impact (−10%)
-- Pessimistic: +66%, Central: +9%, Optimistic: −29%
+- Pessimistic: −29%, Central: +9%, Optimistic: +66%
 
 ### Verdict
 Discount viable; revenue −29% to +66%. Caveat: associational only.

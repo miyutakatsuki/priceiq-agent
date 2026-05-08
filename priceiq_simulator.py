@@ -109,6 +109,12 @@ def simulate_revenue_impact(
         "elasticity_ci_95": ci,
         "demand_multiplier": demand_mult,
         "weather_multiplier": weather_mult,
+        # Keys are named after which β CI end is used (statistics POV). The
+        # *revenue* ordering of these three is NOT guaranteed — for an elastic
+        # good with a price decrease, β_low (most elastic) gives the *highest*
+        # revenue. The Streamlit UI re-sorts by revenue and labels with
+        # user-facing Pessimistic / Central / Optimistic. Don't rely on the
+        # dict-key order to mean "low → high revenue".
         "scenarios": {
             "pessimistic_beta_low":  _scenario(beta_lo),
             "central":               _scenario(beta_central),
