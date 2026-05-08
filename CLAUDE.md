@@ -95,8 +95,7 @@ Final answer + verbatim causal_caveat
 - `Phase2_Notebook_Template.md` + `PriceIQ_Phase2_Final.ipynb`
 
 **Phase 3 presentation**
-- `Phase3_Slides.pptx` — 8 张 deck（v0.dev 风，含真 Streamlit screenshot）
-- `Phase3_Slides.md` — Marp source
+- `Phase3_Slides.pptx` — 8 张 deck（v0.dev 风，含真 Streamlit screenshot）— 由 build_pptx.py 生成，**不要手改 .pptx**
 - `Phase3_Speaker_Notes.md` — 每 slide 30-90s 演讲稿
 - `Phase3_QA_Cheatsheet.md` — 18 个高频提问 + ≤20s 答案
 - `build_pptx.py` / `audit_pptx.py` / `capture_demo.py` — PPT 生成 + audit + 截图工具

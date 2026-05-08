@@ -74,8 +74,7 @@ results = run_full_eval(client, priceiq_agent, n=50, consistency_runs=3)
 **Phase 3 — final presentation** (build artifacts)
 | File | Role |
 |---|---|
-| `Phase3_Slides.pptx` | 8-slide deck for live talk (editable) |
-| `Phase3_Slides.md` | Marp source (alt format, version control) |
+| `Phase3_Slides.pptx` | 8-slide deck for live talk (editable, generated) |
 | `build_pptx.py` | Generator — edit this, then re-run, never edit .pptx by hand |
 | `audit_pptx.py` | Layout audit — bounds, font sizes, run after every build |
 | `capture_demo.py` | Playwright auto-screenshot of Streamlit demo |
