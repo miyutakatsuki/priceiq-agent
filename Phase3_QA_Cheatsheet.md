@@ -162,7 +162,7 @@
 > a -10 point automatic deduction** in the rubric — we read that section
 > first.
 
-### Q17. The Streamlit demo — does the Live Agent tab actually call Anthropic?
+### Q17. The Streamlit demo — does the Live agent tab actually call Anthropic?
 
 > Yes. Tab 2 reads `ANTHROPIC_API_KEY` from `.streamlit/secrets.toml` and
 > hits the live API. The 4 recommendation cards you see in Tab 1 are

@@ -84,6 +84,9 @@ results = run_full_eval(client, priceiq_agent, n=50, consistency_runs=3)
 **Data + config**: `eval_50_cases.json` · `eval_results_indicative.json`
 · `requirements.txt` · `.streamlit/config.toml` · `PriceIQ_Phase2_Final.ipynb`
 
+**Ops**: `DEPLOY.md` (Streamlit Cloud / HF Spaces / cloudflared options) ·
+`run_eval.py` (canonicalize indicative numbers before final submission)
+
 ---
 
 ## Key results
