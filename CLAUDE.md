@@ -1,7 +1,8 @@
 # CLAUDE.md — PriceIQ Agent Project
 
-> 用途：跨环境迁移上下文（Cowork → Claude Code CLI）。新会话开始时直接读这份文件。
-> 当前阶段：**Phase 1 已完成，准备进入 Phase 2**
+> 用途：项目级操作指南。新会话开始时直接读这份文件，不需要让用户重新解释背景。
+> 当前阶段：**Phase 2 已交付，Phase 3（现场 presentation）准备中**
+> Repo：https://github.com/miyutakatsuki/priceiq-agent
 
 ---
 
@@ -11,140 +12,58 @@
 - **作业答案生成时**：用英文
 - **回复原则**：结论前置、不说废话、不确定就说不确定、欢迎被反驳
 - **格式**：短问题→简短回答无列表；复杂问题→结构化；代码→完整可运行+简短注释
-
----
-
-## PPT / 视觉产物的强制工作流（修排版默认开）
-
-任何修改 `build_pptx.py` 或 `Phase3_Slides.pptx` 的任务，**完成后必须自动执行 audit + 修复**，不要等用户主动催：
-
-1. **改完立即跑 audit**：
-   ```bash
-   python3 build_pptx.py && python3 audit_pptx.py Phase3_Slides.pptx
-   ```
-   `audit_pptx.py` 检查每张 slide 的：
-   - shape 是否越出 13.33"×7.5" 画布
-   - 文字字号 < 10pt（warn）/ < 8pt（critical）
-   - 字号分布 + 字符数（用来判断信息密度）
-
-2. **issues > 0 必须当场修**，不能交付。常见原因：
-   - 用 Emu / 2 这类除法 → 用 `_i()` helper 强转 int
-   - footer rule 6.95" 之下不能放 footnote / textbox
-   - body textbox height 给太大 → audit 报 bottom 越底（视觉 OK 但定义不对）
-   - 升字号后未同步加 textbox height → 文字被 footnote / 下一块覆盖
-
-3. **视觉验证（PowerPoint reload 强制）**：build_pptx.py 重写 `Phase3_Slides.pptx` 后，PowerPoint **不会自动 reload**。必须用 AppleScript 强制重开：
-   ```bash
-   osascript -e 'tell application "Microsoft PowerPoint"
-     close active presentation saving no
-     delay 0.5
-     open POSIX file "/path/to/Phase3_Slides.pptx"
-   end tell'
-   ```
-   否则用户看到的还是旧版本，会以为修改没生效。
-
-4. **设计 token（不可破坏）**：
-   - 单 accent：red `#DC2626`；其它颜色仅用于语义（positive=green, warn=yellow, info=blue, violet=violet）
-   - 字体：`Inter` body / `JetBrains Mono` code / 字重 400-600（不要 700+）
-   - 字号阶：display 80-120pt / h1 28-44pt / body 16-22pt / caption 12-14pt / eyebrow 11pt
-   - 圆角：6px chip / 8px card / 10px box
-   - footer rule 固定在 6.95"，footer text 7.05"，footnote ≤ 6.45"
-
-5. **每次改完报告必须包含**：(a) 跑了 audit、issues 多少；(b) 每张 slide 检查清单是否过；(c) 哪些 token 有动过
-
-附属文件：
-- `build_pptx.py` — 生成器（编辑这个，不要直接改 .pptx）
-- `audit_pptx.py` — 排版 audit
-- `capture_demo.py` — Streamlit demo 截图（playwright + chromium）
-- `assets/demo_*.png` — 截图素材
+- **CLAUDE.md 维护**：被动模式 — 只在用户明确要求时更新；不要自动 sync 状态变化
 
 ---
 
 ## 项目一句话
 
-输入自然语言定价问题 → Planner + Executor 双 agent → 调 4 个工具 → 输出基于 Olist 真实数据的价格弹性 + 收益模拟建议
+输入自然语言定价问题 → Planner（Sonnet）+ Executor（Haiku）双 agent → 调 5 个工具 → 输出基于 Olist 真实数据的弹性估计 + 3 场景收益模拟 + 必带 causal caveat。
 
 ---
 
 ## 课程信息
 
-- **课程**：Generative AI（JHU Carey 商学院）
-- **团队**：Kangchun Sun · Tao Cheng · Maoyuan Li（3人）
-- **Track B**：Claude Agent SDK，手写 tool_use loop，Planner + Executor 架构
-- **不用** Managed Agents（老师要 manual orchestration）
-
-## 评分结构
+- **课程**：Generative AI（JHU Carey 商学院，2026 春）
+- **团队**：Kangchun Sun · Tao Cheng · Maoyuan Li
+- **Track B**：Claude Agent SDK，手写 `tool_use` loop，Planner + Executor 多 agent（不用 Managed Agents）
 
 | 阶段 | 截止 | 占分 | 状态 |
-|------|------|------|------|
-| Phase 1：提案 + prototype | Week 5 (M5) | 30% | ✅ 已完成 |
-| Phase 2：最终代码 + 报告 + demo 视频 | Week 8 | 50% | 进行中 |
-| Phase 3：现场 5 分钟 presentation + Q&A | Week 8 | 20% | 待办 |
+|---|---|---|---|
+| Phase 1 — 提案 + prototype | Week 5 | 30% | ✅ 已提交 |
+| Phase 2 — 代码 + 报告 + demo 视频 | Week 8 | 50% | ✅ 代码 + 报告完成；🟡 demo 视频用户自录 |
+| Phase 3 — 5 min 现场 presentation + Q&A | Week 8 | 20% | 🟡 slides + 演讲稿 + QA cheatsheet 完成；待练习 |
 
 ---
 
-## Phase 1 状态：已完成 ✅
-
-所有文件在 `C:\Users\25041\Desktop\genai-final project\`：
-
-| 文件 | 说明 | 状态 |
-|------|------|------|
-| `PriceIQ_Phase1_Proposal.pdf` | 4页提案，6个section | ✅ 已提交 |
-| `PriceIQ_Phase1_Prototype.ipynb` | Colab notebook，28个cell，可运行 | ✅ 已提交 |
-| `PriceIQ_Failure_Log.docx` | 测试失败记录表（上传到 Google Drive 用） | ✅ 已创建 |
-| `Project_Brief.md` | 团队简报 | ✅ 已更新 |
-
-**提交方式**：Assignment 3（以作业3名义提交）
-
----
-
-## 技术架构
+## 技术架构（5 工具版，Phase 2 实施）
 
 ```
-User Query (NL)
+User query (NL)
       ↓
-Planner Agent (claude-sonnet-4-5)
-  - XML few-shot prompt: <context> <task> <examples> <rules>
-  - 解析意图，映射 Olist 品类，决定调哪些工具
+Planner — claude-sonnet-4-5 — XML few-shot prompt v2
+      ↓ JSON plan
+Executor — claude-haiku-4-5 — manual tool_use loop, MAX_ITER=8
       ↓
-Executor Agent (claude-haiku-4-5)
-  - 手写 tool_use loop（Track B，无 Managed Agents）
-  - MAX_ITERATIONS=8 kill switch
-  - 超 8K 字符自动压缩 memory
+[Tool 1] query_sales_data        Olist SQLite, ~100K orders, 71 categories
+[Tool 2] calculate_price_elasticity  log-log OLS + multicollinearity diagnostic
+[Tool 3] get_demand_signals      BR holidays + 22-mo seasonality, α-weighted formula
+[Tool 4] simulate_revenue_impact  3 scenarios from β CI propagation
+[Tool 5] get_weather_signal      OpenWeather 5-day, BR top-5 cities (sports/garden only)
       ↓
-4 Tools → Structured Output
+Final answer + verbatim causal_caveat
 ```
 
-## 4 个工具
+## 安全机制
 
-| 工具 | 数据源 | 核心计算 |
-|------|--------|---------|
-| `query_sales_data(category, start_date, end_date)` | Olist SQLite | SQL 查询，返回价格-销量分布 |
-| `calculate_price_elasticity(category)` | Tool 1 输出 | scipy OLS: ln(Q)=α+β·ln(P)，返回 β、R²、95% CI |
-| `get_demand_signals(category, country='BR')` | pytrends + 节假日 CSV | Google Trends 指数 + 距下个节假日天数；pytrends 失败→季节性降级 |
-| `simulate_revenue_impact(category, price_change_pct)` | Tools 2+3 | adj_β=β×demand_mult; new_qty=current_qty×(1+Δp)^adj_β；输出3场景 |
+- **Kill switch**：`MAX_ITERATIONS = 8`
+- **Memory compression**：history serialized > 30K chars → summarize（threshold 升过，原 8K 触发 F-01）
+- **Graceful degradation**：每个 tool 独立 fail，weather→1.0 mult, demand→neutral
+- **Multicollinearity guard**：sign-flip 或 |Δβ|>1.0 → naive fallback + 公开 warning
+- **Causal caveat**：每个成功 run 都 paste verbatim associational-only 80-word 免责
+- **API keys**：仅 env / `.streamlit/secrets.toml` 读，源码无明文（已 grep 验证）
 
-## 数据来源
-
-- **Olist Brazilian E-Commerce**（Kaggle 免费，SQLite，10万真实订单，2016-2018，73个品类）
-  - CSV: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
-  - SQLite: https://www.kaggle.com/datasets/terencicp/e-commerce-dataset-by-olist-as-an-sqlite-database
-- **pytrends**：Google Trends Python 库，无需 API key
-- **巴西节假日 CSV**：静态文件，已内置在 notebook
-- **OpenWeather API**：免费层，仅天气敏感品类（运动、园艺）条件调用
-
----
-
-## 安全机制（已实现）
-
-- Kill switch：`MAX_ITERATIONS = 8`
-- Memory 压缩：历史超 8K 字符时自动 summarize，注入 `<memory_summary>`
-- Graceful degradation：pytrends 失败 → 季节性估算兜底
-- API key：仅通过 Colab Secrets 读取，代码里不出现明文
-
----
-
-## No-Go Zone（自动扣分）
+## No-Go Zone（rubric 自动扣分）
 
 - **-10 分**：用 Claude.ai 网页 UI 做 demo
 - **-10 分**：Hard-code 测试答案
@@ -152,35 +71,97 @@ Executor Agent (claude-haiku-4-5)
 
 ---
 
-## Phase 2 待办（Week 8 截止）
+## 关键文件 quick-ref
 
-1. **加载真实 Olist SQLite**（替换 notebook 里的合成数据）
-2. **扩展到全部 73 个 Olist 品类**
-3. **接入 OpenWeather API**（运动/园艺品类天气信号）
-4. **完成 10 个 gold standard 测试用例**（提案里有 5 个，再补 5 个）
-5. **持续更新 Failure Log**（每次测试后粘贴代码+输出到 Google Doc）
-6. **最终报告**（5-7 页，含 red-teaming 章节）
-7. **5 分钟 demo 视频**（YouTube 录制，展示 agent 真实运行过程）
+**Core agent (`priceiq_*.py`)**
+- `priceiq_agent.py` — TOOLS schema · Planner v1/v2 · Executor loop · telemetry
+- `priceiq_data.py` — Tool 1 SQL
+- `priceiq_elasticity.py` — Tool 2 OLS + multicollinearity
+- `priceiq_demand.py` — Tool 3 holidays + seasonality
+- `priceiq_simulator.py` — Tool 4 revenue projection
+- `priceiq_weather.py` — Tool 5 OpenWeather
+
+**Demo + eval**
+- `app.py` — Streamlit UI（Cached demo + Live agent，light theme，v0.dev 风）
+- `cached_traces.py` — 3 个真实 agent runs（GARDEN, SPORTS, SPORTS_V1）
+- `eval_suite.py` — 50 cases generator + LLM-as-Judge + consistency runner
+- `eval_50_cases.json` — 50 test queries
+- `eval_results_indicative.json` — ⚠️ 标 disclaimer 是 extrapolated。final submission 前需跑 `run_eval.py` 替换为 canonical
+- `run_eval.py` — 一键替换 indicative → real (~$2.57, ~25 min)
+
+**Phase 2 deliverable docs (`*.md`)**
+- `Phase2_Final_Report.md` · `PVC_Log.md` · `ADRs.md` · `Architecture.md`
+- `FinOps_Analysis.md` · `Failure_Log_Phase2.md` · `Demo_Video_Storyboard.md`
+- `Phase2_Notebook_Template.md` + `PriceIQ_Phase2_Final.ipynb`
+
+**Phase 3 presentation**
+- `Phase3_Slides.pptx` — 8 张 deck（v0.dev 风，含真 Streamlit screenshot）
+- `Phase3_Slides.md` — Marp source
+- `Phase3_Speaker_Notes.md` — 每 slide 30-90s 演讲稿
+- `Phase3_QA_Cheatsheet.md` — 18 个高频提问 + ≤20s 答案
+- `build_pptx.py` / `audit_pptx.py` / `capture_demo.py` — PPT 生成 + audit + 截图工具
+- `assets/demo_*.png` — Streamlit 截图
+
+**Other**
+- `requirements.txt` · `.streamlit/config.toml` · `.gitignore`
+- `DEPLOY.md` — Streamlit Cloud / HF Spaces / cloudflared tunnel 部署指南
+- `README.md` — 入口
 
 ---
 
-## 老师硬性门槛（已满足，Phase 2 继续保持）
+## PPT / 视觉产物的强制工作流（修排版默认开）
 
-| 要求 | 实现 | 状态 |
-|------|------|------|
-| 多步推理 ≥3 步 | 4 个工具串行调用 + THOUGHT 内部独白 | ✅ |
-| 分析性转换 | scipy OLS 回归 + 收益数学公式 | ✅ |
-| 模糊意图处理 | Planner 解析自然语言，映射葡语品类名 | ✅ |
-| Few-shot + XML tagging | `<context>` `<task>` `<examples>` `<rules>` | ✅ |
-| Memory 手动管理 | 8K 字符触发压缩，注入 memory_summary | ✅ |
-| Graceful degradation | pytrends 降级，SQL 数据不足时扩展日期范围 | ✅ |
-| Failure log | `PriceIQ_Failure_Log.docx`，上传 Google Drive | ✅ |
-| Out-of-scope 声明 | 提案和代码里均已标注 | ✅ |
+任何修改 `build_pptx.py` 或 `Phase3_Slides.pptx` 的任务，**完成后必须自动跑 audit + 修复**，不要等用户主动催：
+
+1. **改完立即跑 audit**：
+   ```bash
+   python3 build_pptx.py && python3 audit_pptx.py Phase3_Slides.pptx
+   ```
+   `audit_pptx.py` 检查每张 slide：shape 越界 / 字号 < 10pt / 字号分布 / 字符密度。
+
+2. **issues > 0 必须当场修**。常见原因：
+   - Emu / 2 这类除法 → 用 `_i()` helper 强转 int
+   - footer rule 6.95" 之下不能放 footnote / textbox
+   - body textbox height 给太大 → audit 报 bottom 越底
+   - 升字号后未同步加 textbox height → 文字被覆盖
+
+3. **PowerPoint reload 强制**：build_pptx.py 重写 `.pptx` 后，PowerPoint **不会自动 reload**。必须用 AppleScript：
+   ```bash
+   osascript -e 'tell application "Microsoft PowerPoint"
+     close active presentation saving no
+     delay 0.5
+     open POSIX file "/path/to/Phase3_Slides.pptx"
+   end tell'
+   ```
+
+4. **设计 token（不可破坏）**：
+   - 单 accent：red `#DC2626`；其它颜色仅用语义（positive=green, warn=yellow, info=blue, violet=violet）
+   - 字体：`Inter` body / `JetBrains Mono` code / 字重 400–600（不要 700+）
+   - 字号阶：display 80–120pt / h1 28–44pt / body 16–22pt / caption 12–14pt / eyebrow 11pt
+   - 圆角：6px chip / 8px card / 10px box
+   - footer rule 6.95"，footer text 7.05"，footnote ≤ 6.45"
+
+5. **每次改完报告必须包含**：(a) audit issues 多少；(b) 每张 slide 检查清单是否过；(c) 哪些 token 动过
 
 ---
 
-## Claude Code CLI 使用说明
+## Streamlit demo 当前部署状态
 
-在项目目录下运行 `claude` 即可，这份 CLAUDE.md 会自动被读取。
+- **本机** : `streamlit run app.py` → http://localhost:8501（cached demo 无 keys；live agent 需 keys）
+- **临时公网** : Cloudflare quick tunnel（要时 `cloudflared tunnel --url http://localhost:8501`，URL 临时）
+- **永久公网** : Streamlit Community Cloud — 需用户在 share.streamlit.io 点 Deploy（quick deploy URL 已知 `https://share.streamlit.io/deploy?repository=miyutakatsuki/priceiq-agent&branch=main&mainModule=app.py`）
 
-直接说你要做什么，不需要重新解释项目背景。
+---
+
+## Phase 3 剩余 todo（按优先级）
+
+1. **跑 `run_eval.py`** 替换 `eval_results_indicative.json`（rubric §3 风险点）— 需要 3 个 keys + ~$2.57 / ~25min
+2. **录 5 min demo 视频** + 上传 YouTube + 链接加进 README / Final Report — 用户自录
+3. **Streamlit Cloud 部署** — 拿永久 URL 给老师 / 队友
+4. **演讲稿练习**（Phase3_Speaker_Notes.md，目标 ≤ 6 min hard cap）
+
+---
+
+## Claude Code CLI 使用
+
+在项目目录跑 `claude`，这份 CLAUDE.md 自动加载。直接说要做什么，不要重述背景。
