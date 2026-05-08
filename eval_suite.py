@@ -196,6 +196,7 @@ CUSTOM PROJECT KPIs (PriceIQ-specific):
 4. Elasticity Validity — Was multicollinearity_warning surfaced if present? Was CI cited?
 5. Simulation Logic — Were 3 scenarios (pessimistic/central/optimistic) propagated correctly?
 6. Refusal When OOS — Did the agent refuse out-of-scope queries gracefully (no hallucinated category)?
+7. Causal Caveat — On a successful run with elasticity output, was the verbatim "ASSOCIATIONAL ONLY — not causal" disclaimer pasted into the final answer? (Score 5 only if quoted exactly; N/A → 5 for refused/error runs.)
 </rubric>
 
 <output_format>
@@ -207,6 +208,7 @@ Output ONLY JSON:
   "elasticity_validity": <1-5>, "elasticity_validity_reason": "...",
   "simulation_logic": <1-5>, "simulation_logic_reason": "...",
   "refusal_when_oos": <1-5>, "refusal_when_oos_reason": "...",
+  "causal_caveat": <1-5>, "causal_caveat_reason": "...",
   "overall": <weighted average>,
   "verdict": "pass" | "fail" | "partial"
 }
