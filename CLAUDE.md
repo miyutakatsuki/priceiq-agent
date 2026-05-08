@@ -144,20 +144,10 @@ Final answer + verbatim causal_caveat
 
 ---
 
-## Streamlit demo 当前部署状态
+## Streamlit demo 部署选项
 
-- **本机** : `streamlit run app.py` → http://localhost:8501（cached demo 无 keys；live agent 需 keys）
-- **临时公网** : Cloudflare quick tunnel（要时 `cloudflared tunnel --url http://localhost:8501`，URL 临时）
-- **永久公网** : Streamlit Community Cloud — 需用户在 share.streamlit.io 点 Deploy（quick deploy URL 已知 `https://share.streamlit.io/deploy?repository=miyutakatsuki/priceiq-agent&branch=main&mainModule=app.py`）
-
----
-
-## Phase 3 剩余 todo（按优先级）
-
-1. **跑 `run_eval.py`** 替换 `eval_results_indicative.json`（rubric §3 风险点）— 需要 3 个 keys + ~$2.57 / ~25min
-2. **录 5 min demo 视频** + 上传 YouTube + 链接加进 README / Final Report — 用户自录
-3. **Streamlit Cloud 部署** — 拿永久 URL 给老师 / 队友
-4. **演讲稿练习**（Phase3_Speaker_Notes.md，目标 ≤ 6 min hard cap）
+`streamlit run app.py` 本地 / Streamlit Community Cloud 永久 / Cloudflare
+quick tunnel 临时 — 完整步骤见 `DEPLOY.md`。
 
 ---
 
