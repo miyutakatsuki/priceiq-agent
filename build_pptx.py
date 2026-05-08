@@ -643,7 +643,7 @@ def slide_qa(p):
 
     # Mono stack — repo / demo / eval
     lines = [
-        ("repo", "22 files  ·  9 .py + 9 .md + 2 .json + 1 .ipynb + 1 .txt"),
+        ("ph 2", "22 deliverables  ·  9 .py + 9 .md + 2 .json + 1 .ipynb + 1 .txt"),
         ("demo", "streamlit run app.py"),
         ("eval", "eval_suite.run_full_eval(n=50, consistency_runs=3)"),
     ]

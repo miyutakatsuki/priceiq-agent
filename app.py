@@ -816,10 +816,14 @@ with tab2:
         with st.spinner("Planner reasoning…"):
             try:
                 import os
-                # Load secrets from streamlit if available
-                for key in ["ANTHROPIC_API_KEY", "KAGGLE_API_TOKEN", "OPENWEATHER_API_KEY"]:
-                    if key in st.secrets:
-                        os.environ[key] = st.secrets[key]
+                # Load secrets from streamlit if available; skip silently if no
+                # secrets.toml — env vars or runtime injection still work.
+                try:
+                    for key in ["ANTHROPIC_API_KEY", "KAGGLE_API_TOKEN", "OPENWEATHER_API_KEY"]:
+                        if key in st.secrets:
+                            os.environ[key] = st.secrets[key]
+                except Exception:
+                    pass
                 if not os.environ.get("ANTHROPIC_API_KEY"):
                     st.error(
                         "**Missing `ANTHROPIC_API_KEY`** — add it to "
