@@ -55,7 +55,7 @@
 > credits. Memory compresses at 30K characters.
 >
 > The big FinOps win: this Sonnet+Haiku mix gives us **2.9 cents per query**
-> — that's 53% cheaper than all-Sonnet, and 22 percentage points more
+> — that's 53% cheaper than all-Sonnet, and 20 percentage points more
 > accurate than all-Haiku."
 
 *Cue: walk left-to-right on the diagram. Land on the cost number.*

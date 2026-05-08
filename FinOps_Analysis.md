@@ -45,10 +45,10 @@ regression.
 - The all-Sonnet config is twice as expensive but only +2 percentage points on
   accuracy. The marginal correctness costs roughly $0.032 per additional pass
   — not justified for routine operation.
-- The all-Haiku config saves $0.014 per nominal call but loses 22 percentage
-  points of accuracy. **Cost-per-correct-success is actually worse** ($0.016 vs
-  $0.030 for Sonnet+Haiku) once you factor in the 24% fail rate that needs
-  re-runs or human escalation.
+- The all-Haiku config saves $0.014 per nominal call but loses 20 percentage
+  points of accuracy (96% → 76%). **Cost-per-correct-success is actually
+  worse** ($0.016 vs $0.030 for Sonnet+Haiku) once you factor in the 24% fail
+  rate that needs re-runs or human escalation.
 - **Sonnet+Haiku is the Pareto-optimal choice** at the chosen accuracy bar.
 
 ---

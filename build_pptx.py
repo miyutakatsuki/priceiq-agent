@@ -299,7 +299,7 @@ def slide_architecture(p):
          label_size=14, label_bold=False)
 
     add_footnote(s, Inches(6.45),
-                 "Sonnet plans, Haiku executes.    $0.029 / query — 53% cheaper than all-Sonnet, 22 pts more accurate than all-Haiku.")
+                 "Sonnet plans, Haiku executes.    $0.029 / query — 53% cheaper than all-Sonnet, 20 pts more accurate than all-Haiku.")
     add_footer(s, 3, "Architecture")
     return s
 
