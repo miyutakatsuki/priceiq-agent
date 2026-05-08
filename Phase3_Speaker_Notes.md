@@ -113,7 +113,7 @@ name — it's the failure dissected in the demo video.*
 
 ---
 
-## Slide 6 — Evaluation (45 s)
+## Slide 6 — Evaluation (35 s)
 
 > "We ran a **50-case eval set** — 10 query templates across 5
 > categories, plus adversarial prompts. An LLM-as-Judge with a 7-dimension
