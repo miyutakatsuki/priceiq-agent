@@ -321,8 +321,9 @@ SPORTS_V1_TRACE = {
 Discount viable; revenue −29% to +66%. Caveat: associational only.
 
 > *(Note: this v1 answer omits demand and weather context that v2 surfaces.
-> Magnitudes are noticeably smaller because the simulator received default
-> 1.0 multipliers, not the live demand × 1.122 / weather × 0.944.)*
+> The v1 simulator used default 1.0 multipliers; v2 used the live demand
+> × 1.122 / weather × 0.944. Net effect: v2 shifts the whole CI up ~7pp
+> (midpoint +18% → +26%) — same direction, more nuanced range.)*
 """,
 }
 
