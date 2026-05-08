@@ -63,7 +63,14 @@ def _i(v):
 def add_text(slide, left, top, width, height, text,
              font=FONT, size=18, bold=False, color=FG,
              tracking=0, align=PP_ALIGN.LEFT, line_spacing=1.4):
-    """Add a textbox; returns the text_frame for further tuning."""
+    """Add a textbox; returns the text_frame for further tuning.
+
+    `tracking` (em-unit letter-spacing) is accepted as kwarg for design-token
+    parity with the CSS in app.py, but not applied — python-pptx has no first-
+    class letter-spacing API. Would require raw OpenXML manipulation; not
+    worth it for the small visual gain on uppercase eyebrow labels.
+    """
+    _ = tracking  # explicitly mark intentional non-use
     tb = slide.shapes.add_textbox(_i(left), _i(top), _i(width), _i(height))
     tf = tb.text_frame
     tf.word_wrap = True
