@@ -65,7 +65,7 @@ across 3 runs each on 10 core cases.
 version `terencicp/e-commerce-dataset-by-olist-as-an-sqlite-database`
 (110 MB on disk, downloaded once via `kagglehub`).
 
-- 11 tables (orders, order_items, products, customers, payments, reviews,
+- 9 tables (orders, order_items, products, customers, payments, reviews,
   geolocation, sellers, plus the critical `product_category_name_translation`)
 - ~100K delivered orders, 2016-10 → 2018-08
 - 71 product categories with Portuguese ↔ English mapping

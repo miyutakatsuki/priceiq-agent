@@ -2,8 +2,10 @@
 
 Data: Olist Brazilian E-Commerce dataset (Kaggle slug
 `terencicp/e-commerce-dataset-by-olist-as-an-sqlite-database`).
-11 tables · ~100K delivered orders 2016-10 to 2018-08 · 71 product categories
-(Portuguese ↔ English translation table).
+9 tables (orders, order_items, products, customers, sellers, payments,
+reviews, geolocation, category-name translation) · ~100K orders
+2016-10 to 2018-08 · 71 product categories (we filter to `delivered`
+status only, ~3% exclusion).
 
 Public API:
     list_categories(min_orders=100) -> list[{pt, en, n_orders}]
