@@ -427,14 +427,9 @@ st.markdown("""
 # ── Plotly theme — light, v0/Tailwind palette ────────────────
 PLOTLY_TEMPLATE = "plotly_white"
 PLOT_COLORS = {
-    "primary":   "#DC2626",   # red-600   — same as --accent
-    "secondary": "#2563EB",   # blue-600  — same as --info
-    "success":   "#16A34A",   # green-600
-    "warn":      "#CA8A04",   # yellow-600
-    "danger":    "#DC2626",
-    "neutral":   "#A1A1AA",   # zinc-400
-    "purple":    "#7C3AED",   # violet-600
-    "amber":     "#D97706",   # amber-600
+    "primary": "#DC2626",   # red-600 (accent) — Central scenario
+    "success": "#16A34A",   # green-600 — Optimistic
+    "warn":    "#CA8A04",   # yellow-600 — Pessimistic
 }
 
 
