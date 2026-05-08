@@ -1,4 +1,4 @@
-"""Cached agent traces — power the Streamlit `Cached Demo` and `PVC Log` tabs
+"""Cached agent traces — power the Streamlit `Cached demo` tab
 without requiring Anthropic / Kaggle / OpenWeather API keys.
 
 Source: real end-to-end Colab runs on 2026-05-07 (see PVC_Log.md for the
@@ -11,7 +11,8 @@ Exports:
     SPORTS_TRACE      Sports gear v2 (β=-1.82 naive fallback, multicollinearity_warning)
     SPORTS_V1_TRACE   Same query under v1 prompt (3-tool plan, Shortcut Bias)
     CATEGORIES        List of {id, label, trace} for the demo selector
-    PROMPTS           {'v1': ..., 'v2': ...} excerpts for the PVC tab
+    PROMPTS           {'v1': ..., 'v2': ...} excerpts referenced by `PVC_Log.md`
+                      (no longer surfaced in the UI — see slide 5 of the deck)
 
 When refreshing post-evaluation: replace fields in-place, don't add wrappers —
 app.py reads attribute access directly.

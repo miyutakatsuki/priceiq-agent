@@ -275,12 +275,15 @@ reproducibility (`PLANNER_MODEL = "claude-sonnet-4-5"` etc.).
 
 ## 9. Demo & Visualization
 
-`app.py` (Streamlit, dark theme, Inter font, Plotly charts) ships 5 tabs:
-**Cached Demo** (offline KPIs + charts), **Live Agent** (Anthropic API),
-**PVC Log** (v1 vs v2 diff with rendered tool boxes), **FinOps Dashboard**
-(tokens / latency / model comparison), **Architecture** (Mermaid + ADR
-summaries). The 5-minute video uses the PVC Log tab to walk through the
-Shortcut Bias finding (storyboard in `Demo_Video_Storyboard.md`).
+`app.py` (Streamlit, light theme, Inter font, Plotly charts) ships **2
+customer-facing tabs**: **Cached demo** (offline samples — Garden / Sports
+recommendation cards + 3-scenario chart, no API keys needed) and **Live
+agent** (real Anthropic API call). Evaluator artifacts that were briefly
+surfaced as in-app tabs (PVC Log, FinOps, Architecture) were moved out to
+their respective `.md` files in the repo to keep the demo UI focused on the
+end-user view, not the grading dashboard. The 5-minute video walks through
+the Shortcut Bias finding using slide 5 of the Phase 3 deck (storyboard in
+`Demo_Video_Storyboard.md`).
 
 ---
 
