@@ -20,7 +20,8 @@
     "hallucination_check": 4.8,
     "elasticity_validity": 4.2,
     "simulation_logic": 4.6,
-    "refusal_when_oos": 3.8
+    "refusal_when_oos": 3.8,
+    "causal_caveat": 4.9
   },
   "consistency": {
     "category_consistent_pct": 0.97,
