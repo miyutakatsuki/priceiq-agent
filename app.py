@@ -22,6 +22,19 @@ Helpers:
   render_causal_caveat / plot_revenue_scenarios
 """
 
+# ── Skip Streamlit first-run email prompt (deploy-host-only) ──
+# Streamlit Cloud / Hugging Face / Render containers don't pre-populate
+# ~/.streamlit/credentials.toml, so the first launch prompts for an email
+# and stalls the healthz check. Write an empty credentials file before
+# anything imports streamlit so the prompt never fires.
+import os as _os
+_cred_dir = _os.path.expanduser("~/.streamlit")
+_cred_path = _os.path.join(_cred_dir, "credentials.toml")
+if not _os.path.exists(_cred_path):
+    _os.makedirs(_cred_dir, exist_ok=True)
+    with open(_cred_path, "w") as _f:
+        _f.write('[general]\nemail = ""\n')
+
 import json
 import streamlit as st
 import plotly.graph_objects as go
