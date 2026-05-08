@@ -95,14 +95,14 @@ cells = [
         "## Cell 9 — Optional: 50-case evaluation\n\n"
         "**Cost**: ~$2.57 (50 agent calls × $0.029 + 50 judge calls × $0.005 + "
         "30 consistency runs × $0.029). **Wall-clock**: ~25 min.\n\n"
-        "Uncomment to run."
+        "First sub-cell writes `eval_suite.py`; second sub-cell runs it. "
+        "Skip this cell if you only want the demo (Cell 8 is sufficient)."
     ),
+    writefile_cell("eval_suite.py"),
     code_cell(
-        "# %%writefile eval_suite.py\n"
-        "# (paste eval_suite.py contents here, then run the next cell)\n"
-        "# from eval_suite import run_full_eval\n"
-        "# results = run_full_eval(client, priceiq_agent, n=50, consistency_runs=3)\n"
-        "# import json; print(json.dumps(results['summary'], indent=2))\n"
+        "from eval_suite import run_full_eval\n"
+        "results = run_full_eval(client, priceiq_agent, n=50, consistency_runs=3)\n"
+        "import json; print(json.dumps(results['summary'], indent=2))\n"
     ),
     md_cell("## Cell 10 — Telemetry export"),
     code_cell(

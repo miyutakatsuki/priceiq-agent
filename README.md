@@ -37,7 +37,7 @@ KAGGLE_API_TOKEN   = "KGAT_..."
 OPENWEATHER_API_KEY = "32-char-hex"
 ```
 
-**Colab**: open `PriceIQ_Phase2_Final.ipynb` (22 cells, runnable end-to-end).
+**Colab**: open `PriceIQ_Phase2_Final.ipynb` (23 cells, runnable end-to-end).
 Set the 3 keys in Colab → Secrets, then Run All.
 
 **50-case eval suite** (cost ~ $2.57):

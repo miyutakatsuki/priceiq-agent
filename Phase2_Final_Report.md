@@ -324,5 +324,5 @@ the Shortcut Bias finding using slide 5 of the Phase 3 deck (storyboard in
 | `FinOps_Analysis.md` | Cost & latency analysis |
 | `Failure_Log_Phase2.md` | Live failure capture (running document) |
 | `Phase2_Notebook_Template.md` | Cell-by-cell recipe to assemble the Colab notebook |
-| `PriceIQ_Phase2_Final.ipynb` | Assembled Colab notebook (22 cells, runnable end-to-end) |
+| `PriceIQ_Phase2_Final.ipynb` | Assembled Colab notebook (23 cells, runnable end-to-end) |
 | `requirements.txt` | Python dependencies (anthropic, kagglehub, statsmodels, plotly, streamlit) |
