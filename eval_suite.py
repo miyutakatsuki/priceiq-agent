@@ -294,6 +294,7 @@ def run_full_eval(client, agent_fn, n=50, consistency_runs=3, verbose=True) -> d
                 "case": case,
                 "agent_success": agent_res.get("success"),
                 "agent_iterations": agent_res.get("telemetry", {}).get("iterations"),
+                "agent_latency_s": agent_res.get("telemetry", {}).get("latency_s"),
                 "agent_cost_usd": _estimate_cost(agent_res),
                 "judge_scores": judge_res,
             })
