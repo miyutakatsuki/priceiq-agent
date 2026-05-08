@@ -1,5 +1,11 @@
 # PriceIQ — Phase 2 Submission
 
+[![Streamlit](https://img.shields.io/badge/demo-Streamlit_Cloud-DC2626?logo=streamlit&logoColor=white)](https://priceiq-agent.streamlit.app)
+[![Track B](https://img.shields.io/badge/Track_B-Claude_Agent_SDK-7C3AED)](https://github.com/anthropics/anthropic-sdk-python)
+[![Pass rate](https://img.shields.io/badge/eval-92%25_(46%2F50)-16A34A)](./eval_results_indicative.json)
+[![Cost / query](https://img.shields.io/badge/cost-%240.029_per_query-2563EB)](./FinOps_Analysis.md)
+[![License](https://img.shields.io/badge/license-MIT-71717A)](./LICENSE)
+
 **JHU Carey · Generative AI · Track B (Claude Agent SDK)**
 Kangchun Sun · Tao Cheng · Maoyuan Li
 
