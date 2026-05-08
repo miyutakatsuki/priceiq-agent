@@ -77,7 +77,7 @@ GARDEN_TRACE = {
             },
         },
         "sensitivity_analysis": {
-            "alpha_h=0.2": 1.181, "alpha_h=0.4": 1.163, "alpha_h=0.6": 1.146,
+            "alpha_h=0.2": 1.181, "alpha_h=0.4 (default)": 1.163, "alpha_h=0.6": 1.146,
         },
     },
     "weather": {
@@ -200,7 +200,7 @@ SPORTS_TRACE = {
             },
         },
         "sensitivity_analysis": {
-            "alpha_h=0.2": 1.126, "alpha_h=0.4": 1.122, "alpha_h=0.6": 1.119,
+            "alpha_h=0.2": 1.126, "alpha_h=0.4 (default)": 1.122, "alpha_h=0.6": 1.119,
         },
     },
     "weather": {
