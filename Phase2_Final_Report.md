@@ -310,7 +310,7 @@ the Shortcut Bias finding using slide 5 of the Phase 3 deck (storyboard in
 | `priceiq_demand.py` | Tool 3: BR holidays + Olist seasonality |
 | `priceiq_weather.py` | Tool 5: OpenWeather 5-day forecast (5 BR cities) |
 | `priceiq_simulator.py` | Tool 4: 3-scenario revenue projection |
-| `app.py` | Streamlit demo (5 tabs, Plotly charts) |
+| `app.py` | Streamlit demo (Cached + Live agent tabs, light theme, Plotly) |
 | `cached_traces.py` | Pre-recorded traces for offline demo |
 | `eval_suite.py` | 50-case generator + Judge prompt + consistency runner |
 | `eval_50_cases.json` | The 50 test queries |
