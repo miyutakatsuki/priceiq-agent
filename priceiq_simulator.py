@@ -72,6 +72,9 @@ def simulate_revenue_impact(
 
     current_price = sales["price_stats"]["mean"]
     monthly = [m["n_orders"] for m in sales["monthly_panel"][-3:]]   # last 3 months
+    if not monthly:
+        return {"category": category, "success": False,
+                "message": "Empty monthly_panel — cannot estimate current quantity"}
     current_qty = sum(monthly) / len(monthly)
     current_revenue = current_qty * current_price
 
