@@ -81,8 +81,6 @@ st.markdown("""
         --warning-soft:  #FEF9C3;       /* yellow-100        */
         --info:          #2563EB;       /* blue-600          */
         --info-soft:     #DBEAFE;       /* blue-100          */
-        --violet:        #7C3AED;       /* violet-600        */
-        --violet-soft:   #EDE9FE;       /* violet-100        */
     }
 
     .stApp { background: var(--bg-raised); }
