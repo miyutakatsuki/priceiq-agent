@@ -75,8 +75,9 @@ results = run_full_eval(client, priceiq_agent, n=50, consistency_runs=3)
 | File | Role |
 |---|---|
 | `Phase3_Slides.pptx` | 8-slide deck for live talk (editable, generated) |
-| `build_pptx.py` | Generator — edit this, then re-run, never edit .pptx by hand |
-| `audit_pptx.py` | Layout audit — bounds, font sizes, run after every build |
+| `build_pptx.py` | PPT generator — edit this, then re-run, never edit .pptx by hand |
+| `audit_pptx.py` | PPT layout audit — bounds, font sizes, run after every build |
+| `build_ipynb.py` | Colab notebook generator — re-run after any `priceiq_*.py` edit |
 | `capture_demo.py` | Playwright auto-screenshot of Streamlit demo |
 | `assets/demo_*.png` | Streamlit screenshots embedded in slide 4 |
 | `run_eval.py` | One-shot script to replace indicative numbers with canonical |
