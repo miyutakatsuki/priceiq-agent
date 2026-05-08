@@ -117,7 +117,7 @@ def calculate_price_elasticity(
         "elasticity_label": label,
         "control_variables": ["avg_freight"] if not unstable else [],
         "causal_caveat": (
-            "ASSOCIATIONAL ONLY -- not causal. Historical price variation in Olist "
+            "ASSOCIATIONAL ONLY — not causal. Historical price variation in Olist "
             "data is confounded by promotions, freight policy changes, seasonality, "
             "and supply shocks we cannot fully observe. This beta reflects "
             "price-quantity correlation under the chosen control set, but does NOT "
