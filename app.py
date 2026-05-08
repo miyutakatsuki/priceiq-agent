@@ -413,12 +413,15 @@ st.markdown("""
         font-size: 0.86rem !important;
     }
 
-    /* Hide streamlit chrome (Deploy button, top toolbar, branding) */
+    /* Hide streamlit chrome (Deploy button, top toolbar, branding, anchor links) */
     #MainMenu, footer { visibility: hidden; }
     [data-testid="stHeader"] { background: transparent; height: 0; }
     [data-testid="stToolbar"] { display: none; }
     [data-testid="stDeployButton"] { display: none; }
     .stApp [data-testid="stStatusWidget"] { display: none; }
+    /* Suppress auto "Link to heading" anchors that pollute the hero h1 */
+    [data-testid="stHeadingActionElements"],
+    .hero h1 a, .hero h1 [class*="anchor"] { display: none !important; }
 
     /* Wider main content area */
     .main .block-container,
