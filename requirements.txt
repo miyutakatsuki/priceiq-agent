@@ -1,24 +1,26 @@
 # PriceIQ Phase 2 — Python dependencies
-# Tested on Python 3.11 (Colab default + macOS local)
+# Tested on Python 3.11/3.12. Upper bounds prevent uv from resolving to
+# Python-3.14 / pandas-3.0 / numpy-2.x bleeding-edge combos that broke
+# Streamlit Cloud deploy on 2026-05-09 (healthz crash, see commit 5f531a8).
 
 # ── LLM SDK (Track B: Claude Agent SDK, manual tool_use loop) ──
-anthropic>=0.40.0
+anthropic>=0.40.0,<1.0
 
 # ── Data layer ─────────────────────────────────────────────────
-kagglehub>=0.3.0          # downloads Olist SQLite from Kaggle
-pandas>=2.1.0
-numpy>=1.26.0
+kagglehub>=0.3.0,<1.0     # downloads Olist SQLite from Kaggle
+pandas>=2.1.0,<3.0        # 3.0 has breaking dtype changes
+numpy>=1.26.0,<2.0        # 2.x breaks statsmodels/scipy ABI
 
 # ── Statistics & analytics ─────────────────────────────────────
-statsmodels>=0.14.0       # log-log OLS + multicollinearity diagnostics
-scipy>=1.11.0             # transitive (statsmodels), but pin explicit
+statsmodels>=0.14.0,<0.15 # log-log OLS + multicollinearity diagnostics
+scipy>=1.11.0,<1.14       # transitive (statsmodels), pin compatible range
 
 # ── Live signals ───────────────────────────────────────────────
-requests>=2.31.0          # OpenWeather API client
+requests>=2.31.0,<3.0     # OpenWeather API client
 
 # ── Demo UI ────────────────────────────────────────────────────
-streamlit==1.40.2          # pin: 1.57 deadlocks healthz on Streamlit Cloud first-run email prompt
-plotly>=5.18.0
+streamlit==1.40.2         # 1.57 deadlocks healthz on Cloud first-run email prompt
+plotly>=5.18.0,<6.0       # 6.x has breaking layout API changes
 
 # ── Note on stdlib-only modules (no install needed) ────────────
 # json · sqlite3 · datetime · os · time · typing
