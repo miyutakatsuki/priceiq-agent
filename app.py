@@ -28,12 +28,17 @@ Helpers:
 # and stalls the healthz check. Write an empty credentials file before
 # anything imports streamlit so the prompt never fires.
 import os as _os
-_cred_dir = _os.path.expanduser("~/.streamlit")
-_cred_path = _os.path.join(_cred_dir, "credentials.toml")
-if not _os.path.exists(_cred_path):
-    _os.makedirs(_cred_dir, exist_ok=True)
-    with open(_cred_path, "w") as _f:
-        _f.write('[general]\nemail = ""\n')
+try:
+    _cred_dir = _os.path.expanduser("~/.streamlit")
+    _cred_path = _os.path.join(_cred_dir, "credentials.toml")
+    if not _os.path.exists(_cred_path):
+        _os.makedirs(_cred_dir, exist_ok=True)
+        with open(_cred_path, "w") as _f:
+            _f.write('[general]\nemail = ""\n')
+except Exception:
+    # If the host filesystem is read-only or rejects the write, fall through.
+    # Streamlit's first-run prompt is a soft block on healthz, not fatal.
+    pass
 
 import json
 import streamlit as st
