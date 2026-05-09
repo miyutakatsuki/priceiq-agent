@@ -17,7 +17,7 @@ scipy>=1.11.0             # transitive (statsmodels), but pin explicit
 requests>=2.31.0          # OpenWeather API client
 
 # ── Demo UI ────────────────────────────────────────────────────
-streamlit>=1.30.0
+streamlit==1.40.2          # pin: 1.57 deadlocks healthz on Streamlit Cloud first-run email prompt
 plotly>=5.18.0
 
 # ── Note on stdlib-only modules (no install needed) ────────────
