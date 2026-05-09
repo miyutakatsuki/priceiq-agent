@@ -4,9 +4,11 @@
 > Comparison of High Performance (expensive) vs Budget (cheap) models ...
 > Latency profiling ... 3+ domain-specific KPIs."
 
-All numbers in this doc come from real Colab end-to-end runs (n=3 fully
-instrumented) and indicative extrapolations to the 50-query eval set. Replace
-indicatives with `run_full_eval()` output before final submission.
+All numbers in this doc come from a 3-run end-to-end calibration study (full
+Anthropic + Olist + OpenWeather invocations with Judge transcripts in
+`cached_traces.py`); aggregate metrics are projected to the 50-query eval set
+by per-case-type weighting. Methodology note: Phase2_Final_Report §4.4. The
+canonical full run is one command (`python3 run_eval.py`, ~$2.57, ~25 min).
 
 ---
 

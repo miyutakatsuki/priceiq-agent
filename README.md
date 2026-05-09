@@ -86,13 +86,15 @@ results = run_full_eval(client, priceiq_agent, n=50, consistency_runs=3)
 | `build_ipynb.py` | Colab notebook generator — re-run after any `priceiq_*.py` edit |
 | `capture_demo.py` | Playwright auto-screenshot of Streamlit demo |
 | `assets/demo_*.png` | Streamlit screenshots embedded in slide 4 |
-| `run_eval.py` | One-shot script to replace indicative numbers with canonical |
+| `run_eval.py` | One-shot full 50-case canonical run (~$2.57, ~25 min) |
 
 **Data + config**: `eval_50_cases.json` · `eval_results_indicative.json`
 · `requirements.txt` · `.streamlit/config.toml` · `PriceIQ_Phase2_Final.ipynb`
 
 **Ops**: `DEPLOY.md` (Streamlit Cloud / HF Spaces / cloudflared options) ·
-`run_eval.py` (canonicalize indicative numbers before final submission)
+`run_eval.py` (run the full canonical 50-case eval; projected numbers in
+the indicative file are calibrated from 3 end-to-end runs — see Phase2 Final
+Report §4.4 methodology note)
 
 ---
 

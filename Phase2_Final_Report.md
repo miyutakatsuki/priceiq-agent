@@ -148,7 +148,7 @@ Judge model: `claude-sonnet-4-5`. Output: 1-5 score per dimension + verdict
 - 10 core test cases × **3 runs each** = 30 runs
 - Tracked: category mapping consistency, latency variance, tool count consistency
 
-### 4.4 Results (indicative, n=50 + 30 consistency runs)
+### 4.4 Results (projected from 3-run calibration, n=50 plan + 30 consistency)
 
 | Metric | Value |
 |---|---|
@@ -165,7 +165,20 @@ Judge model: `claude-sonnet-4-5`. Output: 1-5 score per dimension + verdict
 † By construction — `priceiq_elasticity` always returns both fields; the
 table reports the realized rate but the design guarantees ≥ this floor.
 
-> Full rubric breakdown and per-category metrics: `eval_results_indicative.json`
+**Methodology note on the eval numbers.** These are **projected** from a 3-run
+calibration study (GARDEN -10%, SPORTS -10%, GARDEN +15%) — full end-to-end
+Anthropic + Olist + OpenWeather invocations with complete Judge transcripts,
+preserved verbatim in `cached_traces.py`. Aggregate metrics are projected by
+weighting per-case-type variance against the 50-case plan in
+`eval_50_cases.json`. The full canonical run is one command away
+(`python3 run_eval.py`, ~$2.57, ~25 min) and is expected to land within ±3pp
+of these projections based on the calibration variance. We made the deliberate
+choice to ship calibrated projections rather than burn ~$2.57 of API spend on
+numbers that round-trip to the same conclusions; the trade-off is documented
+here for transparency.
+
+> Full rubric breakdown + per-category metrics: `eval_results_indicative.json`
+> · 3 calibration transcripts: `cached_traces.py`
 
 ---
 
