@@ -1,3 +1,16 @@
+---
+title: PriceIQ Agent
+emoji: 💲
+colorFrom: red
+colorTo: gray
+sdk: streamlit
+sdk_version: 1.40.2
+app_file: app.py
+pinned: false
+python_version: "3.12"
+license: mit
+---
+
 # PriceIQ — Phase 2 Submission
 
 [![Streamlit](https://img.shields.io/badge/demo-Streamlit_Cloud-DC2626?logo=streamlit&logoColor=white)](https://priceiq-agent.streamlit.app)
