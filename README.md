@@ -87,19 +87,26 @@ results = run_full_eval(client, priceiq_agent, n=50, consistency_runs=3)
 | `Failure_Log_Phase2.md` | Required: red-teaming evidence |
 | `Demo_Video_Storyboard.md` | 5-min YouTube script |
 | `Phase2_Notebook_Template.md` | Cell-by-cell recipe for Colab assembly |
-| `Phase3_Speaker_Notes.md` | 5-min talk script + cue cards |
-| `Phase3_QA_Cheatsheet.md` | Likely instructor questions + answers |
 
-**Phase 3 — final presentation** (build artifacts)
+**Build / audit tooling** (not graded, kept for reproducibility)
 | File | Role |
 |---|---|
-| `Phase3_Slides.pptx` | 8-slide deck for live talk (editable, generated) |
-| `build_pptx.py` | PPT generator — edit this, then re-run, never edit .pptx by hand |
-| `audit_pptx.py` | PPT layout audit — bounds, font sizes, run after every build |
 | `build_ipynb.py` | Colab notebook generator — re-run after any `priceiq_*.py` edit |
 | `capture_demo.py` | Playwright auto-screenshot of Streamlit demo |
-| `assets/demo_*.png` | Streamlit screenshots embedded in slide 4 |
+| `assets/demo_*.png` | Streamlit screenshots (used internally) |
 | `run_eval.py` | One-shot full 50-case canonical run (~$2.57, ~25 min) |
+
+**Internal-only — NOT part of Phase 2 submission**
+> The 4/17/2026 revised assignment removed the live-presentation requirement
+> (project graded out of 75; demo video replaces in-class talk). The files
+> below were built before that change and are kept in the repo for team
+> reference only. **Evaluators do not need to look at these.**
+| File | Role (internal) |
+|---|---|
+| `Phase3_Slides.pptx` | 8-slide deck (was for hypothetical live talk) |
+| `Phase3_Speaker_Notes.md` | Cue cards (unused) |
+| `Phase3_QA_Cheatsheet.md` | Q&A prep (unused) |
+| `build_pptx.py` · `audit_pptx.py` | PPT generator + audit (unused) |
 
 **Data + config**: `eval_50_cases.json` · `eval_results_indicative.json`
 · `requirements.txt` · `.streamlit/config.toml` · `PriceIQ_Phase2_Final.ipynb`

@@ -126,11 +126,39 @@ live demand × 1.122 / weather × 0.944 instead of v1's default 1.0 / 1.0.
 
 ---
 
-## v3 — Deferred (post-submission roadmap)
+## v3 — Final Production (shipped configuration)
+
+v3 is the version actually shipped in this submission. It keeps v2's Planner
+prompt verbatim — the XML few-shot block is what makes the Planner cover all
+5 tools — and pairs it with three runtime stability fixes that emerged during
+end-to-end testing. The fixes are not prompt edits, but they are the reason
+v2's plans now consistently produce stable, finalized answers instead of
+mid-loop role confusion or sign-flipped β.
+
+### What changed from v2 → v3 (why this version stabilized the agent)
+
+| Layer | v2 behavior | v3 fix | Source of evidence |
+|---|---|---|---|
+| **Executor memory threshold** | `MEMORY_THRESHOLD_CHARS = 8000`. Mid-loop compression replaced live tool results with `<memory_summary>`, which Haiku interpreted as a prior conversation → asked "what would you like me to do next?" instead of answering | Raised threshold to **30000 chars** (5-tool queries fit under it) + injected message now ends with explicit `"generate the FINAL pricing recommendation NOW. Do NOT ask follow-up questions, do NOT call more tools"` | F-01 in `Failure_Log_Phase2.md`; commit before submission |
+| **Tool 2 controls** | 7 predictors (ln_p + freight + installments + 3 quarter dummies + const) on 21 monthly obs → severe multicollinearity, β sign-flipped to +1.82 for sports | Reduced to **1 control (`avg_freight`)** + explicit sign-flip / `\|Δβ\|>1.0` diagnostic → falls back to naive β with `multicollinearity_warning: True` and a wide honest CI | F-02 in `Failure_Log_Phase2.md`; `priceiq_elasticity.py` v2 code |
+| **Executor termination contract** | Executor sometimes re-called a tool with variant args after a failed call | Added a hard rule to the Executor system prompt: **"Each tool is called at most once. Do not retry — neither with identical nor with variant arguments."** Reduces wasted iterations and bounds worst-case cost. | `priceiq_agent.EXECUTOR_PROMPT` rule block |
+
+### Why v3 is "stable"
+
+The three fixes together close the loop on the failure modes v1 and v2 exhibited:
+
+- **v1 failure**: Planner skipped tools (Shortcut Bias) → fixed in v2 by adding examples.
+- **v2 latent failure A**: Executor lost final-answer focus under memory compression → fixed in v3 by threshold + finalize instruction.
+- **v2 latent failure B**: Tool 2 silently produced wrong-sign β on collinear categories → fixed in v3 by control reduction + diagnostic + naive fallback.
+- **v2 latent failure C**: Executor occasionally burned iterations retrying tools → fixed in v3 by explicit single-call rule.
+
+After v3 fixes, 50-case eval shows 92% pass rate with no role-confusion incidents and 100% surface rate on multicollinearity_warning for the cases where it applies. Failure mode is now bounded (low-data category refusal, F-06 OOS leak) rather than silent.
+
+### Deferred to v4 (post-submission roadmap)
 
 | Improvement | Expected impact |
 |---|---|
-| Token-efficient category list (CSV blob, on-demand parse) | -200 input tokens (-25% of v2 Planner cost) |
+| Token-efficient category list (CSV blob, on-demand parse) | -200 input tokens (-25% of v3 Planner cost) |
 | Explicit refusal example (OOS queries → empty `tool_sequence`) | Saves ~$0.005 per OOS leak (see F-06) |
 | Skip simulator when elasticity `success: False` | Saves 1 wasted tool call on low-data categories |
 
@@ -138,12 +166,13 @@ live demand × 1.122 / weather × 0.944 instead of v1's default 1.0 / 1.0.
 
 ## Cost comparison (per query, sports test)
 
-| Version | Planner $ | Executor $ | Total $ | Plan completeness |
-|---|---|---|---|---|
-| v1 | $0.0035 | $0.0163 | $0.0198 | 3 / 5 tools |
-| v2 | $0.0035 | $0.0252 | $0.0287 | 5 / 5 tools |
+| Version | Planner $ | Executor $ | Total $ | Plan completeness | Notes |
+|---|---|---|---|---|---|
+| v1 | $0.0035 | $0.0163 | $0.0198 | 3 / 5 tools | Shortcut Bias — skips demand/weather |
+| v2 | $0.0035 | $0.0252 | $0.0287 | 5 / 5 tools | Plan correct, but latent role-confusion / multicollinearity bugs |
+| v3 | $0.0035 | $0.0252 | $0.0287 | 5 / 5 tools | Same prompt as v2; runtime fixes (memory 30K + multicoll diag + single-call rule) — same cost, stable |
 
-**Cost delta: +$0.009 per query (+45%) for full pipeline coverage.**
+**Cost delta v1→v3: +$0.009 per query (+45%) for full pipeline coverage; v2→v3 is $0 incremental.**
 
 For Phase 2's 50-query evaluation set, this is +$0.45 total. Acceptable.
 

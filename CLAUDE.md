@@ -1,7 +1,7 @@
 # CLAUDE.md — PriceIQ Agent Project
 
 > 用途：项目级操作指南。新会话开始时直接读这份文件，不需要让用户重新解释背景。
-> 当前阶段：**Phase 2 已交付，Phase 3（现场 presentation）准备中**
+> 当前阶段：**Phase 2 待提交**（代码/文档 ready，缺 demo 视频）。无 Phase 3 现场演讲。
 > Repo：https://github.com/miyutakatsuki/priceiq-agent
 
 ---
@@ -28,11 +28,13 @@
 - **团队**：Kangchun Sun · Tao Cheng · Maoyuan Li
 - **Track B**：Claude Agent SDK，手写 `tool_use` loop，Planner + Executor 多 agent（不用 Managed Agents）
 
-| 阶段 | 截止 | 占分 | 状态 |
+作业 4/17/2026 修订版（`BAAI Project Assignment.ipynb` from gwarren5@jh.edu）：**总分 75，无现场演讲要求**。
+
+| 阶段 | 截止 | 分数 | 状态 |
 |---|---|---|---|
-| Phase 1 — 提案 + prototype | Week 5 | 30% | ✅ 已提交 |
-| Phase 2 — 代码 + 报告 + demo 视频 | Week 8 | 50% | ✅ 代码 + 报告完成；🟡 demo 视频用户自录 |
-| Phase 3 — 5 min 现场 presentation + Q&A | Week 8 | 20% | 🟡 slides + 演讲稿 + QA cheatsheet 完成；待练习 |
+| Phase 1 — 提案 + prototype | Week 5 | 25 | ✅ 已提交 |
+| Phase 2 — 代码 + 报告 + demo 视频（含 PVC v1/v2/v3、FinOps、Eval Matrix、Red Team、ADRs） | Week 8 | 50 | ✅ 代码 + 文档完成；🟡 demo 视频用户自录 |
+| ~~Phase 3 现场演讲~~ | — | — | ❌ **取消**（4/17/2026 修订版起，演讲被 demo video 替代；slides/notes/QA cheatsheet 留 repo 但不交） |
 
 ---
 
