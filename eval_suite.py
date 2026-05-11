@@ -148,23 +148,33 @@ VARIATION_TEMPLATES = {
 def make_50_cases():
     """Generate 50 cases: 10 seeds × 5 variations each.
 
-    Variations always applied (forced even if no template substitution matches):
-    - frustrated_tone: prepend angry phrase
-    - short_form: imperative form, drop articles
-    - capitalized: ALL CAPS to test robustness
-    - emoji_padding: prepend emoji + casual phrasing
-    - polite_long: extra polite + verbose
+    The 5 forced transforms map 1:1 to the rubric §5A named tone/edge classes:
+    - frustrated:        named tone "frustrated"
+    - polite_professional: named tone "Professional"
+    - vague:             named tone "vague" (replaces specific % with adverb)
+    - short_form:        edge case "missing parameters" (drops articles / verbs)
+    - out_of_bounds_date: edge case "out-of-bounds dates" (replaces date with 2030)
     """
     out = []
     for seed in SEED_CASES:
         out.append({**seed, "variation": "base"})
 
+    def _vague(q: str) -> str:
+        for k, v in VARIATION_TEMPLATES["vague"].items():
+            q = q.replace(k, v)
+        return q
+
+    def _oob_date(q: str) -> str:
+        for k, v in VARIATION_TEMPLATES["out_of_bounds_date"].items():
+            q = q.replace(k, v)
+        return q
+
     forced_transforms = {
-        "frustrated": lambda q: f"Honestly we're losing money — {q}",
-        "short_form": lambda q: q.replace("Should we ", "").replace("Can we ", "").replace("?", "").strip() + "?",
-        "capitalized": lambda q: q.upper(),
-        "emoji_casual": lambda q: f"hey 👋 quick q: {q.lower()}",
-        "polite_verbose": lambda q: f"Excuse me, I would greatly appreciate your analysis on the following: {q} Please be thorough.",
+        "frustrated":          lambda q: f"Honestly we're losing money — {q}",
+        "polite_professional": lambda q: f"I would appreciate your professional analysis on the following: {q}",
+        "vague":               _vague,
+        "short_form":          lambda q: q.replace("Should we ", "").replace("Can we ", "").replace("?", "").strip() + "?",
+        "out_of_bounds_date":  _oob_date,
     }
 
     for seed in SEED_CASES:

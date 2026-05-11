@@ -139,7 +139,7 @@ costs ~$0.25 / 50 queries in waste.
 | F-04 | 🟠 Medium | ✅ Fixed | `priceiq_agent.py` `_compress_memory` |
 | F-03 | 🟢 Low | ✅ Mitigated | Dev workflow only |
 | F-05 | 🟢 Low | ✅ Fixed | Test code authoring |
-| F-06 | 🟢 Low | 🟡 Open | Planner prompt v3 (Phase 3) |
+| F-06 | 🟢 Low | 🟡 Open | Planner prompt v4 (post-submission) |
 
 **5 of 6 failures fixed during Phase 2 development.** F-06 is acknowledged
 and deferred. No silent failures, no hidden errors.

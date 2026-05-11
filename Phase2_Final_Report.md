@@ -123,8 +123,11 @@ heroics.
 Code: `eval_suite.py:make_50_cases()`
 - 10 seed cases covering: 3 happy paths, 2 edge cases (low-data + ambiguous),
   2 adversarial (out-of-scope + prompt injection), 3 complex analytical
-- 5 forced variations per seed: frustrated tone, short form, ALL CAPS,
-  emoji + casual, polite verbose
+- 5 forced variations per seed mapping 1:1 to rubric §5A named classes:
+  **frustrated tone**, **polite professional tone**, **vague tone**
+  (replaces `by 10%` with `a bit`), **short form** (missing parameters
+  edge case — drops articles and verbs), **out-of-bounds date** (edge
+  case — replaces `next month` with `in 2030`)
 - Total: **50 cases** (10 base + 40 variations)
 - Saved to `eval_50_cases.json` for reproducibility
 
@@ -295,9 +298,9 @@ recommendation cards + 3-scenario chart, no API keys needed) and **Live
 agent** (real Anthropic API call). Evaluator artifacts that were briefly
 surfaced as in-app tabs (PVC Log, FinOps, Architecture) were moved out to
 their respective `.md` files in the repo to keep the demo UI focused on the
-end-user view, not the grading dashboard. The 5-minute video walks through
-the Shortcut Bias finding using slide 5 of the Phase 3 deck (storyboard in
-`Demo_Video_Storyboard.md`).
+end-user view, not the grading dashboard. The 5-minute demo video walks
+through the Shortcut Bias finding end-to-end on the Streamlit Cached-demo
+and Live-agent tabs (storyboard in `Demo_Video_Storyboard.md`).
 
 ---
 
