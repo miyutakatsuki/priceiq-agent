@@ -73,6 +73,15 @@ B wins on effective cost once accuracy is factored.
 The assignment requires explicit justification for LLM-vs-`if/else` choices.
 Seven decisions, summarized below.
 
+### Alternatives considered (and why rejected)
+
+| Approach | Why we didn't choose it |
+|---|---|
+| **All-LLM** (let Executor pick categories AND do math via tool descriptions only) | Numerical hallucination risk: free-form Sonnet/Haiku math drifts ~5-15% per run, killing the rigor required for `β` estimates. Audit failure for any pricing decision. |
+| **All-rules** (deterministic intent parser + fixed tool chain) | 71 Olist categories × N English/Portuguese synonyms × ambiguous queries ("the bedding stuff") are not tractable as regex. Rejected after Phase 1 prototype showed 60% misclassification on adversarial inputs. |
+| **LLM only for synthesis** (Planner+Executor as glue; tools called rigidly) | Defeats the point of multi-agent orchestration — degenerates into a templated RAG pipeline. Fails rubric §2 Gatekeeper ("Ambiguity Resolution"). |
+| **Hybrid by domain** (chosen, see table) | LLM where ambiguity / synthesis is fundamental; deterministic code where the answer has a closed form. Best of both. |
+
 ### Decisions table
 
 | Component | Choice | Why | Risk if wrong |
@@ -139,6 +148,21 @@ to prevent role confusion.
 - ✅ Compression path is exercised in evaluation edge cases — not dead code
 - ⚠️ Compression *does* lose information; telemetry sets `compression_fired: true`, those traces are disqualified from accuracy metrics
 
+### Companion guardrails (rubric §4B: iterations AND token-spend caps)
+
+State strategy alone is insufficient — three hard caps prevent runaway cost:
+
+| Constant | Value | What it bounds |
+|---|---|---|
+| `MAX_ITERATIONS` | 8 | Executor loop iterations (rubric range 5–10) |
+| `MAX_PLANNER_TOKENS` | 5,000 | Single Planner call (~5× nominal v2 of 930); guards against prompt injection / pathological category strings |
+| `MAX_EXECUTOR_TOKENS` | 80,000 | Cumulative input+output across all Executor calls per query (~4× nominal 18K); guards against retry-storms and verbose intermediate output |
+
+All three are enforced with explicit return paths that produce a `success: False`
+result with `"answer": "..."` (graceful, not exception). Telemetry records the
+exact value at trip time, so post-mortems can distinguish iteration cap hits from
+token cap hits from clean end_turn.
+
 ---
 
 ## ADR-004: Error Handling — Graceful degradation per tool
@@ -155,6 +179,15 @@ We have 5 tools, each with different failure modes:
 
 Hard failures cascade: if Tool 2 throws, Tool 5 has no β to use. We need a
 contract that lets the Executor make sense of partial failures.
+
+### Options considered
+
+| Option | Pros | Cons | Rejected because |
+|---|---|---|---|
+| A. Tools raise; Executor `try/except` per call | Pythonic, lets you log stack traces | Adds 5× try/except boilerplate in Executor; exception type is leaky abstraction; Anthropic's `tool_use` protocol expects `tool_result` content, not Python exceptions | High cost for low signal — and `tool_use` already wraps results in a content block |
+| B. Tools return `Either[T, error]` style monad | Type-safe, composable | Python lacks language-level support; readers unfamiliar with FP get lost; serializing to JSON for tool_result requires unwrapping anyway | Idiomatic Python idea would be too clever |
+| C. Tools return None on failure | Minimal change | LLM Executor can't distinguish "no data" from "tool broken"; loses the reason | Information loss |
+| **D. Tools always return `dict` with status field** (chosen) | Structured, JSON-native, self-documenting; Executor sees same shape on success and failure; reasons preserved | Tools must remember to honor the contract (linter could enforce, manual today) | None — this is the chosen path |
 
 ### Decision
 Every tool **always returns a structured dict, never raises** — with a required

@@ -1,19 +1,33 @@
 """PriceIQ Agent — Track B (manual tool_use orchestration).
 
+Reasoning framework: **ReAct** (Reason + Act). The Planner produces an explicit
+JSON plan (the "Reason" step, externalized as structured data rather than free-
+form CoT so downstream code can audit it). The Executor then iterates
+Thought → Action → Observation cycles via Anthropic's `tool_use` loop:
+
+    For iteration in range(MAX_ITERATIONS):
+        Thought:     Executor model decides next tool given plan + history
+        Action:      tool_use block emits `name + input`
+        Observation: tool function runs locally, result returned as tool_result
+        ── if stop_reason == "end_turn" ──>  synthesize final answer
+    else:  hit iteration cap → graceful fallback
+
 Pipeline:
     User query
        ↓
     Planner (claude-sonnet-4-5)  — XML few-shot prompt v2 with 71-category context
        ↓
-    JSON plan {category_pt, tool_sequence, user_intent}
+    JSON plan {category_pt, tool_sequence, user_intent}    ← Reason step
        ↓
-    Executor (claude-haiku-4-5)  — manual tool_use loop, MAX_ITER=8 kill-switch
-       ↓
+    Executor (claude-haiku-4-5)  — ReAct tool_use loop, MAX_ITER=8 kill-switch
+       ↓ (Thought → Action → Observation × N)
     Final answer with verbatim causal_caveat
 
-Hard limits / FinOps:
-  MAX_ITERATIONS         = 8     (kill-switch, ADR-003)
-  MEMORY_THRESHOLD_CHARS = 30000 (compress history when exceeded; v1 was 8K, see F-01)
+Hard limits / FinOps (rubric §4B):
+  MAX_ITERATIONS         = 8     (loop kill-switch, ADR-003)
+  MAX_PLANNER_TOKENS     = 5000  (per-call cap on Planner — prompt-injection guard)
+  MAX_EXECUTOR_TOKENS    = 80000 (cumulative cap across Executor calls per query)
+  MEMORY_THRESHOLD_CHARS = 30000 (compress history when exceeded; v1 was 8K, F-01)
   Telemetry              every tool call's input/output/tokens/latency logged
 
 Public API:
@@ -34,8 +48,12 @@ import time
 from typing import Optional
 
 
-# ── Hard limits ────────────────────────────────────────────────
+# ── Hard limits (rubric §4B: iterations AND token-spend caps) ──
 MAX_ITERATIONS = 8
+MAX_EXECUTOR_TOKENS = 80000    # cumulative input+output across all Executor calls
+                                # per query (~4× nominal 18K, kills runaway loops)
+MAX_PLANNER_TOKENS = 5000       # nominal v2 Planner uses ~930; cap protects against
+                                # prompt-injection or pathological category strings
 MEMORY_THRESHOLD_CHARS = 30000   # 5-tool 场景下一般 8-12K，提高阈值避免误触
 PLANNER_MODEL = "claude-sonnet-4-5"
 EXECUTOR_MODEL = "claude-haiku-4-5"
@@ -349,6 +367,12 @@ def priceiq_agent(user_query: str, anthropic_client, verbose: bool = True,
         "input": plan_resp.usage.input_tokens,
         "output": plan_resp.usage.output_tokens,
     }
+    planner_total = plan_resp.usage.input_tokens + plan_resp.usage.output_tokens
+    if planner_total > MAX_PLANNER_TOKENS:
+        return {"success": False, "telemetry": telemetry,
+                "error": f"Planner token cap hit ({planner_total} > {MAX_PLANNER_TOKENS})",
+                "answer": "Agent stopped — Planner exceeded token budget. "
+                          "Likely cause: pathological input. Try a shorter query."}
     try:
         plan = json.loads(plan_text)
     except json.JSONDecodeError:
@@ -396,6 +420,20 @@ def priceiq_agent(user_query: str, anthropic_client, verbose: bool = True,
             "input": resp.usage.input_tokens,
             "output": resp.usage.output_tokens,
         })
+        exec_cumulative = sum(t["input"] + t["output"]
+                              for t in telemetry["executor_tokens"])
+        if exec_cumulative > MAX_EXECUTOR_TOKENS:
+            telemetry["finished_at"] = time.time()
+            telemetry["latency_s"] = telemetry["finished_at"] - telemetry["started_at"]
+            telemetry["iterations"] = iteration + 1
+            telemetry["error"] = (f"Executor token cap hit "
+                                  f"({exec_cumulative} > {MAX_EXECUTOR_TOKENS})")
+            return {"success": False, "telemetry": telemetry,
+                    "plan": plan,
+                    "answer": "Agent stopped — Executor exceeded cumulative token "
+                              "budget. Partial results in telemetry.tool_calls. "
+                              "Common cause: agent stuck retrying or producing "
+                              "verbose intermediate output."}
 
         # 把 assistant 回应加进 history
         messages.append({"role": "assistant", "content": resp.content})

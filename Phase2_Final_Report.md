@@ -44,9 +44,23 @@ The five tools are pure-Python functions registered as Anthropic tool_use schema
 4. `get_weather_signal` — OpenWeather 5-day forecast for 5 BR cities (sports/garden only)
 5. `simulate_revenue_impact` — propagates β's 95% CI into 3 revenue scenarios
 
-Hard limits: `MAX_ITERATIONS=8` kill-switch, 30K-char history threshold,
-graceful per-tool degradation (every tool returns a structured dict with
-`success`/`found`/`applicable` field, never raises).
+**Reasoning framework — ReAct externalized**. The Planner's Reason step is
+externalized as a structured JSON plan (`category_pt`, `tool_sequence`,
+`user_intent`) rather than free-form chain-of-thought. This choice is
+deliberate: the plan is *auditable* by downstream code, *replayable* for
+debugging, and *cacheable* (we ship 3 plans in `cached_traces.py` for the
+offline demo). The Executor then runs a classical Thought → Action →
+Observation loop via Anthropic's `tool_use` protocol — each `tool_use` block
+is the "Action", each `tool_result` is the "Observation", and the next
+`tool_use` (or `end_turn`) is the "Thought" conditioned on what came before.
+Iteration N=6 is the typical execution depth for 5-tool plans.
+
+Hard limits (rubric §4B requires iterations **and** token-spend caps; all three coded):
+- `MAX_ITERATIONS = 8` — loop iteration kill-switch
+- `MAX_PLANNER_TOKENS = 5000` — per-Planner-call cap (~5× nominal, prompt-injection guard)
+- `MAX_EXECUTOR_TOKENS = 80000` — cumulative Executor cap (~4× nominal, retry-storm guard)
+- 30K-char history compression threshold (ADR-003)
+- Graceful per-tool degradation (every tool returns a structured dict with `success`/`found`/`applicable`, never raises)
 
 > See `Architecture.md` for Mermaid diagrams (top-level pipeline, tool I/O
 > contracts, sequence trace, state machine). Module dependency is in `README.md` § Files.
@@ -54,7 +68,7 @@ graceful per-tool degradation (every tool returns a structured dict with
 ### Track B compliance
 ✅ Manual `tool_use` loop (no Managed Agents) · Planner+Executor orchestration ·
 5 tools (≥3 required) · log-log OLS + multicollinearity diagnosis + 3-scenario
-projection · 6-iteration multi-step reasoning · 96% category-mapping consistency
+projection · ReAct framework (Reason→Act×N) · 96% category-mapping consistency
 across 3 runs each on 10 core cases.
 
 ---
