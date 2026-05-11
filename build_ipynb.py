@@ -43,7 +43,19 @@ cells = [
         "Source: built from local priceiq_*.py via `build_ipynb.py`. "
         "Re-run that script after any module change.\n"
     ),
-    md_cell("## Cell 1 — Secrets + dependencies"),
+    md_cell(
+        "## Cell 1 — Secrets + dependencies\n\n"
+        "**Colab Secrets setup** (do this BEFORE running):\n"
+        "1. Click the 🔑 (key) icon in the left sidebar to open the **Secrets** panel.\n"
+        "2. Add 3 secrets by name:\n"
+        "   - `ANTHROPIC_API_KEY`   (get from console.anthropic.com → API Keys)\n"
+        "   - `KAGGLE_API_TOKEN`    (get from kaggle.com → Account → Create New Token)\n"
+        "   - `OPENWEATHER_API_KEY` (get from openweathermap.org/api, free tier)\n"
+        "3. For **each** secret, toggle **\"Notebook access\"** ON — if this toggle is off,\n"
+        "   `userdata.get()` silently returns `None` and the agent will fail with 401.\n\n"
+        "Then run this cell. It uses `google.colab.userdata` (the standard Colab\n"
+        "Secrets API) — different from local `.streamlit/secrets.toml`."
+    ),
     code_cell(
         "import os\n"
         "try:\n"

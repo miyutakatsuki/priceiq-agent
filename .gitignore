@@ -37,3 +37,11 @@ ms-playwright/
 
 # Office temp lock files
 ~$*
+
+# Build / submission artifacts (not source)
+PriceIQ_Phase2_Submission/
+PriceIQ_Demo_5min.mp4
+PriceIQ_Demo_5min.srt
+PriceIQ_Demo_Cue_Cards.pdf
+video*.mp4
+"BAAI_Project_Assignment_ipynb"*.ipynb
