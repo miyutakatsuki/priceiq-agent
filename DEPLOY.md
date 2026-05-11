@@ -1,8 +1,11 @@
-# Deploy the Streamlit demo for teammate review
+# Deploy the Streamlit demo (internal reference)
 
-> Goal: send teammates a URL they can open. Three options, all $0.
+> **Not part of Phase 2 submission.** The 4/17/2026 revised assignment does
+> not require a live demo URL — the 5-min demo video covers that. This file
+> is kept for team-internal reference if anyone wants to spin up a shareable
+> URL after submission. Cloud deploy options were prototyped but not finalized.
 >
-> **Recommended**: Streamlit Community Cloud (永久 URL, 官方支持).
+> Goal: send teammates a URL they can open. Three options, all $0.
 
 ---
 

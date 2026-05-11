@@ -13,7 +13,6 @@ license: mit
 
 # PriceIQ — Phase 2 Submission
 
-[![Streamlit](https://img.shields.io/badge/demo-Streamlit_Cloud-DC2626?logo=streamlit&logoColor=white)](https://priceiq-agent.streamlit.app)
 [![Track B](https://img.shields.io/badge/Track_B-Claude_Agent_SDK-7C3AED)](https://github.com/anthropics/anthropic-sdk-python)
 [![Pass rate](https://img.shields.io/badge/eval-92%25_(46%2F50)-16A34A)](./eval_results_indicative.json)
 [![Cost / query](https://img.shields.io/badge/cost-%240.029_per_query-2563EB)](./FinOps_Analysis.md)
@@ -26,9 +25,9 @@ A multi-agent pricing-decision system on real Olist e-commerce data.
 Sonnet-4.5 Planner → Haiku-4.5 Executor → 5 typed tools → recommendation
 with 95% CI, multicollinearity diagnostic, and verbatim causal caveat.
 
-**Live demo**: https://priceiq-agent.streamlit.app *(may take 30 s on first cold-start)*
 **Repo**: https://github.com/miyutakatsuki/priceiq-agent
 **Demo video**: *<5-min YouTube link added after recording>*
+**Local demo**: `streamlit run app.py` (Cached demo tab works without API keys; see Quick start below)
 
 ---
 
